@@ -1,0 +1,37 @@
+[
+    {
+        "appname" :"aaa",
+        "apptype" :"ddsss",
+        "weburl" :"北京",
+        "chargename" :"aaa",
+        "chargemobile":1234567,
+        "chargeemail":"44444",
+        "insearchmonitor" :"是",
+        "apptimezone" :"6666",
+        "currency":"sss",
+        "isDisabled": true
+    },{
+        "appname" :"adad",
+        "apptype" :"ddasdsasss",
+        "weburl" :"北sd京",
+        "chargename" :"assaa",
+        "chargemobile":1234567,
+        "chargeemail":"44444",
+        "insearchmonitor" :"是",
+        "apptimezone" :"66ss66",
+        "currency":"sssss",
+        "isDisabled": true
+    },{
+        "appname" :"aasssa",
+        "apptype" :"ddsssss",
+        "weburl" :"北ss京",
+        "chargename" :"assaa",
+        "chargemobile":1234567,
+        "chargeemail":"44444",
+        "insearchmonitor" :"是s",
+        "apptimezone" :"66s66",
+        "currency":"ssss",
+        "isDisabled": true
+    }
+
+]

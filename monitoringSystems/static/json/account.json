@@ -1,0 +1,29 @@
+[
+    {
+        "logonname" :"111",
+        "logonpwd" :"ddsss",
+        "accounttype" :"北京",
+        "accountname" :"aaa",
+        "accountemail":1234567,
+        "accountmobile":"44444",
+        "isDisabled": true
+
+    },{
+        "logonname" :"222",
+        "logonpwd" :"ddsss",
+        "accounttype" :"北京",
+        "accountname" :"aaa",
+        "accountemail":1234567,
+        "accountmobile":"44444",
+        "isDisabled": true
+    },{
+         "logonname" :"333",
+         "logonpwd" :"ddsss",
+         "accounttype" :"北京",
+         "accountname" :"aaa",
+         "accountemail":1234567,
+         "accountmobile":"44444",
+         "isDisabled": true
+    }
+
+]

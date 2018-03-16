@@ -35,9 +35,9 @@
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" v-if="WebsiteManagement.length > 0">{{WebManageShow}} <span class="caret"></span></a>
                           
                           <ul class="dropdown-menu" v-if="WebsiteManagement.length > 0">
-                            <li v-for="(item, index) in WebsiteManagement" @click.stop="WebManageShowChange(item.text)">
+                            <li v-for="(item, index) in WebsiteManagement  " @click.stop="WebManageShowChange(item.appname)">
                                 <router-link :to="'/home/overview'">
-                                    {{item.text}}
+                                    {{item.appname}}
                                 </router-link>
                             </li>
                             <li @click="WebManageShowChange('网站应用管理')">
@@ -100,15 +100,11 @@ export default {
                     ]
                 },
             ],
-            WebsiteManagement:[//网站应用管理--后期后台请求数据
-                // {"routerLinks":'/home/fenxi',"text":'网站1'},
-                // {"routerLinks":'/home/fenxi',"text":'网站2'},
-                // {"routerLinks":'/home/fenxi',"text":'网站3'},
-                // {"routerLinks":'/home/fenxi',"text":'网站4'}
+            WebsiteManagement:[
             ],
             // 网站显示
             WebManageShow:"网站应用管理",
-            userName:'NO01'
+            userName:''
         }
     },
     created(){
@@ -129,7 +125,6 @@ export default {
         },
         // 获取后台数据
         getWebsiteData(){
-          var webData =[]
             // 网站管理数据
             this.$http.get('/api/gl/getuserapp', {
 
@@ -137,7 +132,7 @@ export default {
                 credentials: true,
                 emulateJSON: true
             }).then(function(data) {
-                // console.log(data)
+                console.log(data.body)
                 // 判断是否已经写入网站
                 // 没有
                 if (data.body.data.length=='' || data.body.data.length==0) {
@@ -146,11 +141,9 @@ export default {
 
                 }else{
                   // 有
-                  for(let i in data.body.data){
-                      webData.push({'appIndex':i,'text':data.body.data[i].appname})
-                  }
-                  this.WebsiteManagement = webData;
-                  this.WebManageShow = webData[0].text; 
+                  this.WebsiteManagement = data.body.data;
+                  this.WebManageShow = data.body.data[0].chargename; 
+                  console.log(this.WebsiteManagement)
                 }
    
             },function(err){
@@ -164,7 +157,7 @@ export default {
                 }
                 console.log(err.status)
             });
-            // 当前登录账号数据
+            // 获取当前登录账号账号名
             this.$http.get('/api/gl/getuser', {
 
             },{
@@ -175,14 +168,6 @@ export default {
                 this.userName = data.body.data.username
             
             },function(err){
-                // console.log(err.status)
-                // if (err.status ==500) {
-                //     if (confirm('登录超时，请重新登录！')==true){ 
-                //         this.$router.push({path:'/login'})  
-                //     }else{ 
-
-                //     } 
-                // }
                 console.log(err.status)
             });
         },
@@ -205,14 +190,6 @@ export default {
            }).then(function(data) {
               console.log('logout') 
            },function(err){
-               // console.log(err.status)
-               // if (err.status ==500) {
-               //     if (confirm('登录超时，请重新登录！')==true){ 
-               //         this.$router.push({path:'/login'})  
-               //     }else{ 
-
-               //     } 
-               // }
                console.log(err.status)
            });
         }

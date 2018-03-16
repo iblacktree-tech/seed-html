@@ -40,13 +40,9 @@ export default {
         },
     },
     created(){
-        this.disables();
+
     },
     methods:{
-        // 右侧导航条添加disabled属性
-        disables(){
-          this.ovTopBtn[this.ov.ovNavIndex].dis = false
-        },
         // 弹框的显示与隐藏
         modalShow(){
           if (this.ov.modalIsShow=='on') {

@@ -5,11 +5,10 @@ Vue.use(Vuex)
 let store = new Vuex.Store({
 	state:{
 		itemIndex:'',//导航条默认active 下标
-		overview:{
-			ovNavIndex:0,//概览右侧导航 默认显示下表
-			modalIsShow: "off", //弹框显示与否 控制
+		overview:{//应用概览
+			modalIsShow: "off", //日期弹框显示与否 控制
 			modalDateChose: "昨天", //弹框选择后，显示在右侧的日期
-			chartsData:{}, //概览页 图表数据
+			chartsData:[], //概览页 图表数据
 		},
 		webManages:{//网站管理
 			pageData:[],//页面数据

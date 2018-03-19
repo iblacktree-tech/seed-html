@@ -74,7 +74,7 @@ export default {
                   chartTime : this.dateItems[index].thisCycle.from
               })
               // 请求后台chart数据
-              this.$http.get('/api/glreport/getReportdata', {
+              this.$http.get('/api/glreport/getReportBasicdata', {
                  params: {
                      siteid: this.webId,//网站siteid
                      querydate: this.dateItems[index].thisCycle.from,//查询日期范围
@@ -97,7 +97,7 @@ export default {
                   chartTime : this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to
               })
               // 请求后台chart数据
-              this.$http.get('/api/glreport/getReportdata', {
+              this.$http.get('/api/glreport/getReportBasicdata', {
                  params: {
                      siteid: this.webId,//网站siteid
                      querydate: this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to,//查询日期范围

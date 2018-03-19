@@ -58,11 +58,10 @@ export default {
        webId :function(){
          console.log(this.webId)
          console.log(this.chartTime)
-         this.$http.get('/api/glreport/getReportdata', {
+         this.$http.get('/api/glreport/getReportBasicdata', {
             params: {
                 siteid: this.webId,//网站siteid
                 querydate: this.chartTime,//查询日期范围
-                segment: '',//拼写过滤条件
                 period: 'day'//数据粒度, 最小是day
             }
          },{
@@ -71,7 +70,7 @@ export default {
          }).then(function(res) {
             console.log(res.body.data) 
          },function(err){
-             console.log(err.status)
+             // console.log(err.status)
          });
        },
        chartsData(){

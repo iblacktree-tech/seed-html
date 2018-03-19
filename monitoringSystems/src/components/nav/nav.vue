@@ -35,7 +35,7 @@
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" v-if="WebsiteManagement.length > 0">{{WebManageShow}} <span class="caret"></span></a>
                           
                           <ul class="dropdown-menu" v-if="WebsiteManagement.length > 0">
-                            <li v-for="(item, index) in WebsiteManagement  " @click.stop="WebManageShowChange(item.appname)">
+                            <li v-for="(item, index) in WebsiteManagement  " @click.stop="WebManageShowChange(item.appname,index)">
                                 <router-link :to="'/home/overview'">
                                     {{item.appname}}
                                 </router-link>
@@ -132,7 +132,7 @@ export default {
                 credentials: true,
                 emulateJSON: true
             }).then(function(data) {
-                console.log(data.body)
+                // console.log(data.body)
                 // 判断是否已经写入网站
                 // 没有
                 if (data.body.data.length=='' || data.body.data.length==0) {
@@ -143,7 +143,10 @@ export default {
                   // 有
                   this.WebsiteManagement = data.body.data;
                   this.WebManageShow = data.body.data[0].chargename; 
-                  console.log(this.WebsiteManagement)
+                  // console.log(this.WebsiteManagement)
+                  this.$store.commit('webManagesData',{
+                      webId:this.WebsiteManagement[0].siteid
+                  })
                 }
    
             },function(err){
@@ -172,17 +175,24 @@ export default {
             });
         },
         // 更改网站显示函数
-        WebManageShowChange(data){
+        WebManageShowChange(data,index){
           this.WebManageShow = data;
           if (data!='网站应用管理') {
             // 切换 导航条 active 显示
-            this.itemChange(0);
+            this.itemChange(0); 
+            // 更新 网站数据请求id
+            if (index!='') {
+              this.$store.commit('webManagesData',{
+                  webId:this.WebsiteManagement[index].siteid
+              })
+            }
           }
+          
         },
         // 登出
         logOut(){
            // 发送登出请求
-           this.$http.get('/gl/logout', {
+           this.$http.get('/api/gl/logout', {
 
            },{
                credentials: true,

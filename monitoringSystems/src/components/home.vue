@@ -28,7 +28,6 @@ export default {
           this.$store.commit('overviewData',{
               modalIsShow : 'off'
           })
-          // console.log(this.ovShow)
         }
       }
     },
@@ -40,7 +39,11 @@ export default {
 </script>
 
 <style scoped>
+html,body{
+  height: 100%;
+}
   .home{
-    height: 100%;
+    padding-top: 60px;
+    /*height: calc(100%- 60px);*/
   }
 </style>

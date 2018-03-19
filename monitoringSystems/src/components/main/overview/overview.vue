@@ -39,8 +39,8 @@ export default {
     .overview {
       width: 100%;
       height: 100%;
-      margin: auto;
-      position: relative;
+      margin: 0;
+      /*position: relative;*/
       /*overflow-y: auto;*/
       padding: 0px 30px 80px;
     }

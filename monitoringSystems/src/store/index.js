@@ -9,6 +9,7 @@ let store = new Vuex.Store({
 			modalIsShow: "off", //日期弹框显示与否 控制
 			modalDateChose: "昨天", //弹框选择后，显示在右侧的日期
 			chartsData:[], //概览页 图表数据
+			chartTime:'' //图表选择日期
 		},
 		webManages:{//网站管理
 			pageData:[],//页面数据
@@ -45,7 +46,8 @@ let store = new Vuex.Store({
 				}
 			],
 			editOrAdd: 'edit',//添加还是编辑
-			copydata:''
+			copydata:'',//部署代码
+			webId:0 //当前网站数据请求的id
 		},
         userSettings:{//账户管理
         	pageData:[], //账户管理页数据更新
@@ -107,6 +109,12 @@ let store = new Vuex.Store({
 			if (data.chartsData) {
 				state.overview.chartsData=data.chartsData;
 			}
+			// 概览页 图表选择日期
+			if (data.chartTime) {
+				state.overview.chartTime=data.chartTime;
+			}
+
+
 		},
 		webManagesData(state,data){
 			// 网站管理页数据更新
@@ -121,6 +129,9 @@ let store = new Vuex.Store({
 			}
 			if (data.copydata) {
 				state.webManages.copydata=data.copydata;
+			}
+			if (data.webId) {
+				state.webManages.webId=data.webId;
 			}
 		},
 		userSettingsData(state,data){

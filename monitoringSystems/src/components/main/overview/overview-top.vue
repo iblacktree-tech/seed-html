@@ -5,7 +5,7 @@
             <div class="main-top-menu-bar">
                 <div class="top-menu-container">
                     <div class="btn-group top-menu-group" role="group" aria-label="">
-                      <button type="button" v-for="(item, index) in ovTopBtn" class="btn btn-default top-group-btn" :class="{'top-group-btn-active':ov.ovNavIndex==index}"  v-bind:disabled="item.dis">{{item.text}}</button>
+                      <button type="button" v-for="(item, index) in ovTopBtn" class="btn btn-default top-group-btn" :class="{'top-group-btn-active': !item.dis}"  v-bind:disabled="item.dis">{{item.text}}</button>
                     </div>
                 </div>
                 <button type="button" class="top-choosedate-btn" @click.stop='modalShow'>
@@ -25,7 +25,7 @@ export default {
     data() {
         return {
             ovTopBtn:[
-                {"text":'网页','dis':true},
+                {"text":'网页','dis':false},
                 {"text":'移动应用','dis':true},
                 {"text":'IOS','dis':true},
                 {"text":'Android','dis':true}
@@ -120,8 +120,8 @@ export default {
       color: #fff;
     }
     .top-menu-group  .top-group-btn-active:hover.btn-default {
-        border-color: #d9d9d9;
-        background-color: #f7f7f7;
+        border-color: #7f7583;
+        background-color: #7f7583;
         color: rgba(0,0,0,.25);
     }
 

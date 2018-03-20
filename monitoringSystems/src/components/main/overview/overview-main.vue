@@ -25,62 +25,81 @@ export default {
                     c:'col-xs-6',
                     chartsdata:{
                         title: "页面浏览量趋势",//标题
-                        dates:"2018/01/18",//日期
-                        counts :200,//数量
-                        num : 10,//上升或者下降数量
+                        dates:"",//日期
+                        counts :0,//数量
+                        num : 0,//上升或者下降数量
                         riseOrFall:"上升",// 上升或者下降
                         id : "echart-box1",
                         chartX:[],
                         chartYNow:[],
-                        chartYBefore:[]
+                        chartYBefore:[],
+                        isNull: false //是否显示暂无数据
                     }
                 },
                 {
                     c:'col-xs-6',
                     chartsdata:{
-                        title: "页面浏览量趋势",//标题
-                        dates:"2018/01/18",//日期
-                        counts :200,//数量
-                        num : 10,//上升或者下降数量
+                        title: "网站访问量趋势",//标题
+                        dates:"",//日期
+                        counts :0,//数量
+                        num : 0,//上升或者下降数量
                         riseOrFall:"上升",// 上升或者下降
                         id : "echart-box2",
-                        chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800]
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[],
+                        isNull: false //是否显示暂无数据
                     }
                 },
                 {
                     c:'col-xs-4',
                     chartsdata:{
-                        title: "页面浏览量趋势",//标题
-                        dates:"2018/01/18",//日期
-                        counts :200,//数量
-                        num : 10,//上升或者下降数量
+                        title: "访问用户量趋势",//标题
+                        dates:"",//日期
+                        counts :0,//数量
+                        num : 0,//上升或者下降数量
                         riseOrFall:"上升",// 上升或者下降
                         id : "echart-box3",
-                        chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800]
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[],
+                        isNull: false //是否显示暂无数据
                     }
                 },
                 {
                     c:'col-xs-4',
                     chartsdata:{
-                        title: "页面浏览量趋势",//标题
-                        dates:"2018/01/18",//日期
-                        counts :200,//数量
-                        num : 10,//上升或者下降数量
+                        title: "每次访问页面浏览量趋势",//标题
+                        dates:"",//日期
+                        counts :0,//数量
+                        num : 0,//上升或者下降数量
                         riseOrFall:"上升",// 上升或者下降
                         id : "echart-box4",
-                        chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800]
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[],
+                        isNull: false //是否显示暂无数据
                     }
                 },
                 {
                     c:'col-xs-4',
                     chartsdata:{
-                        title: "页面浏览量趋势",//标题
+                      title: "新访问用户量趋势",//标题
+                      dates:"",//日期
+                      counts :0,//数量
+                      num : 0,//上升或者下降数量
+                      riseOrFall:"上升",// 上升或者下降
+                      id : "echart-box5",
+                      chartX:[],
+                      chartYNow:[],
+                      chartYBefore:[],
+                      isNull: false //是否显示暂无数据
+                    }
+                },
+                {
+                    c:'col-xs-4',
+                    chartsdata:{
+                        title: "页面（URL）进入量前10名",//标题
                         dates:"2018/01/18",//日期
                         counts :200,//数量
                         num : 10,//上升或者下降数量
@@ -88,39 +107,70 @@ export default {
                         id : "echart-box5",
                         chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
                         chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800]
+                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                        isNull: false //是否显示暂无数据
                     }
                 },
                 {
                     c:'col-xs-6',
                     chartsdata:{
-
+                      title: "站外搜索搜索词进入量前10名",//标题
+                      dates:"2018/01/18",//日期
+                      counts :200,//数量
+                      num : 10,//上升或者下降数量
+                      riseOrFall:"上升",// 上升或者下降
+                      id : "echart-box5",
+                      chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                      chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
+                      chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                      isNull: false //是否显示暂无数据
                     }
                 },
                 {
                     c:'col-xs-6',
                     chartsdata:{
-
+                      title: "访问用户一级访问来源",//标题
+                      dates:"2018/01/18",//日期
+                      counts :200,//数量
+                      num : 10,//上升或者下降数量
+                      riseOrFall:"上升",// 上升或者下降
+                      id : "echart-box5",
+                      chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                      chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
+                      chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                      isNull: false //是否显示暂无数据
                     }
                 },
                 {
                     c:'col-xs-4',
                     chartsdata:{
-
+                      title: "广告来源访问用户量前10名",//标题
+                      dates:"2018/01/18",//日期
+                      counts :200,//数量
+                      num : 10,//上升或者下降数量
+                      riseOrFall:"上升",// 上升或者下降
+                      id : "echart-box5",
+                      chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                      chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
+                      chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                      isNull: false //是否显示暂无数据
                     }
                 },
                 {
                     c:'col-xs-4',
                     chartsdata:{
-
+                      title: "城市名称访问用户量前10名",//标题
+                      dates:"2018/01/18",//日期
+                      counts :200,//数量
+                      num : 10,//上升或者下降数量
+                      riseOrFall:"上升",// 上升或者下降
+                      id : "echart-box5",
+                      chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                      chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
+                      chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                      isNull: false //是否显示暂无数据
                     }
-                },
-                {
-                    c:'col-xs-4',
-                    chartsdata:{
-
-                    }
-               }
+                }
             ],
 
         }
@@ -138,8 +188,12 @@ export default {
     },
     watch: {
        chartsData(){ // chartdata 数据变化监听
-           // console.log(this.chartsData) 
+           console.log(this.chartsData) 
            this.pageviews()
+           this.visits()
+           this.uniq_visitors()
+           this.pageOnces()
+           this.newVistor()
        }
     },
     methods:{
@@ -149,7 +203,7 @@ export default {
             let dataBefore = this.chartsData.data2.data
             let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
 
-            console.log(this.chartsData.data1.data)
+            // console.log(this.chartsData.data1.data)
             // 本周期
             if (dataNow.length>0) {//有数据
                 // 日期
@@ -163,7 +217,7 @@ export default {
                 //页面访问量总量
                 this.box[0].chartsdata.counts = counts
                 //页面访问量总量
-                this.box[0].chartsdata.countsNow = counts
+                countsNow = counts
                 // 横坐标
                 this.box[0].chartsdata.chartX = chartX
                 // 纵坐标
@@ -171,20 +225,264 @@ export default {
             }
             // 上周期
             if (dataBefore.length>0) {//有数据
-
                 for (var i = 0; i < dataBefore.length; i++) {
                     chartYBefore.push(dataBefore[i].nb_pageviews);
                     countsBefore += dataBefore[i].nb_pageviews
                 }
                 // 纵坐标
                 this.box[0].chartsdata.chartYBefore = chartYBefore
+
+                if (chartYBefore==0) {
+                      this.box[0].chartsdata.num = 0;
+                      this.box[0].chartsdata.riseOrFall ='上升';
+                }else{
+                    if (countsNow-countsBefore>=0) {
+                        num = ((countsNow-countsBefore)/countsBefore).toFixed(2);
+                        this.box[0].chartsdata.num =num;
+                        this.box[0].chartsdata.riseOrFall ='上升';
+                    }else{
+                        num = ((countsBefore - countsNow)/countsBefore).toFixed(2);
+                        this.box[0].chartsdata.num =num;
+                        this.box[0].chartsdata.riseOrFall ='下降';
+                    }
+                }
+            }else{
+                this.box[0].chartsdata.num =0;
+                this.box[0].chartsdata.riseOrFall ='上升';
             }
+
+
+
+            if (dataNow.length==0&&dataBefore.length==0) {
+                this.box[0].chartsdata.isNull=true //是否显示暂无数据
+            }
+
             // console.log(this.formatDate('2018-03-19'))
 
             this.$store.commit('overviewData',{
                 charChange : counts
             })
         },
+        visits(){//网站访问量趋势
+            var that = this
+            let dataNow = this.chartsData.data1.data
+            let dataBefore = this.chartsData.data2.data
+            let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
+
+            // console.log(this.chartsData.data1.data)
+            // 本周期
+            if (dataNow.length>0) {//有数据
+                // 日期
+                this.box[1].chartsdata.dates = dataNow[dataNow.length-1].datadate
+
+                for (var i = 0; i < dataNow.length; i++) {
+                  counts += dataNow[i].nb_visits
+                  chartX.push(that.formatDate(dataNow[i]['datadate']))
+                  chartYNow.push(dataNow[i].nb_visits)
+                }
+                //页面访问量总量
+                this.box[1].chartsdata.counts = counts
+                //页面访问量总量
+                countsNow = counts
+                // 横坐标
+                this.box[1].chartsdata.chartX = chartX
+                // 纵坐标
+                this.box[1].chartsdata.chartYNow = chartYNow
+            }
+            // 上周期
+            if (dataBefore.length>0) {//有数据
+                for (var i = 0; i < dataBefore.length; i++) {
+                    chartYBefore.push(dataBefore[i].nb_visits);
+                    countsBefore += dataBefore[i].nb_visits
+                }
+                // 纵坐标
+                this.box[1].chartsdata.chartYBefore = chartYBefore
+
+                if (chartYBefore==0) {
+                      this.box[1].chartsdata.num = 0;
+                      this.box[1].chartsdata.riseOrFall ='上升';
+                }else{
+                    if (countsNow-countsBefore>=0) {
+                        num = ((countsNow-countsBefore)/countsBefore).toFixed(2);
+                        this.box[1].chartsdata.num =num;
+                        this.box[1].chartsdata.riseOrFall ='上升';
+                    }else{
+                        num = ((countsBefore - countsNow)/countsBefore).toFixed(2);
+                        this.box[1].chartsdata.num =num;
+                        this.box[1].chartsdata.riseOrFall ='下降';
+                    }
+                }
+            }else{
+                this.box[1].chartsdata.num =0;
+                this.box[1].chartsdata.riseOrFall ='上升';
+            }
+            // console.log(this.formatDate('2018-03-19'))
+        },
+        uniq_visitors(){//访问用户量趋势
+            var that = this
+            let dataNow = this.chartsData.data1.data
+            let dataBefore = this.chartsData.data2.data
+            let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
+
+            // console.log(this.chartsData.data1.data)
+            // 本周期
+            if (dataNow.length>0) {//有数据
+                // 日期
+                this.box[2].chartsdata.dates = dataNow[dataNow.length-1].datadate
+
+                for (var i = 0; i < dataNow.length; i++) {
+                  counts += dataNow[i].nb_uniq_visitors
+                  chartX.push(that.formatDate(dataNow[i]['datadate']))
+                  chartYNow.push(dataNow[i].nb_uniq_visitors)
+                }
+                //页面访问量总量
+                this.box[2].chartsdata.counts = counts
+                //页面访问量总量
+                countsNow = counts
+                // 横坐标
+                this.box[2].chartsdata.chartX = chartX
+                // 纵坐标
+                this.box[2].chartsdata.chartYNow = chartYNow
+            }
+            // 上周期
+            if (dataBefore.length>0) {//有数据
+                for (var i = 0; i < dataBefore.length; i++) {
+                    chartYBefore.push(dataBefore[i].nb_uniq_visitors);
+                    countsBefore += dataBefore[i].nb_uniq_visitors
+                }
+                // 纵坐标
+                this.box[2].chartsdata.chartYBefore = chartYBefore
+
+                if (chartYBefore==0) {
+                      this.box[2].chartsdata.num = 0;
+                      this.box[2].chartsdata.riseOrFall ='上升';
+                }else{
+                    if (countsNow-countsBefore>=0) {
+                        num = ((countsNow-countsBefore)/countsBefore).toFixed(2);
+                        this.box[2].chartsdata.num =num;
+                        this.box[2].chartsdata.riseOrFall ='上升';
+                    }else{
+                        num = ((countsBefore - countsNow)/countsBefore).toFixed(2);
+                        this.box[2].chartsdata.num =num;
+                        this.box[2].chartsdata.riseOrFall ='下降';
+                    }
+                }
+            }else{
+                this.box[2].chartsdata.num =0;
+                this.box[2].chartsdata.riseOrFall ='上升';
+            }
+        },
+        pageOnces(){//访问用户量趋势
+            var that = this
+            let dataNow = this.chartsData.data1.data
+            let dataBefore = this.chartsData.data2.data
+            let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
+
+            // console.log(this.chartsData.data1.data)
+            // 本周期
+            if (dataNow.length>0) {//有数据
+                // 日期
+                this.box[3].chartsdata.dates = dataNow[dataNow.length-1].datadate
+
+                for (var i = 0; i < dataNow.length; i++) {
+                  let dd = (parseInt(dataNow[i].nb_pageviews)/parseInt(dataNow[i].nb_visits))
+                  counts += dd
+                  chartX.push(that.formatDate(dataNow[i]['datadate']))
+                  chartYNow.push(dd)
+                }
+                //页面访问量总量
+                this.box[3].chartsdata.counts = counts
+                //页面访问量总量
+                countsNow = counts
+                // 横坐标
+                this.box[3].chartsdata.chartX = chartX
+                // 纵坐标
+                this.box[3].chartsdata.chartYNow = chartYNow
+            }
+            // 上周期
+            if (dataBefore.length>0) {//有数据
+                for (var i = 0; i < dataBefore.length; i++) {
+                    let dd = (parseInt(dataNow[i].nb_pageviews)/parseInt(dataNow[i].nb_visits))
+
+                    chartYBefore.push(dd);
+                    countsBefore += dd
+                }
+                // 纵坐标
+                this.box[3].chartsdata.chartYBefore = chartYBefore
+                if (chartYBefore==0) {
+                      this.box[3].chartsdata.num = 0;
+                      this.box[3].chartsdata.riseOrFall ='上升';
+                }else{
+                    if (countsNow-countsBefore>=0) {
+                        num = ((countsNow-countsBefore)/countsBefore).toFixed(2);
+                        this.box[3].chartsdata.num =num;
+                        this.box[3].chartsdata.riseOrFall ='上升';
+                    }else{
+                        num = ((countsBefore - countsNow)/countsBefore).toFixed(2);
+                        this.box[3].chartsdata.num =num;
+                        this.box[3].chartsdata.riseOrFall ='下降';
+                    }
+                }
+            }else{
+                this.box[3].chartsdata.num =0;
+                this.box[3].chartsdata.riseOrFall ='上升';
+            }
+        },
+        newVistor(){//新访问用户量趋势
+            var that = this
+            let dataNow = this.chartsData.data1.data
+            let dataBefore = this.chartsData.data2.data
+            let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
+
+            // console.log(this.chartsData.data1.data)
+            // 本周期
+            if (dataNow.length>0) {//有数据
+                // 日期
+                this.box[4].chartsdata.dates = dataNow[dataNow.length-1].datadate
+
+                for (var i = 0; i < dataNow.length; i++) {
+                  counts += dataNow[i].nb_uniq_visitors_newcoming
+                  chartX.push(that.formatDate(dataNow[i]['datadate']))
+                  chartYNow.push(dataNow[i].nb_uniq_visitors_newcoming)
+                }
+                //页面访问量总量
+                this.box[4].chartsdata.counts = counts
+                //页面访问量总量
+                countsNow = counts
+                // 横坐标
+                this.box[4].chartsdata.chartX = chartX
+                // 纵坐标
+                this.box[4].chartsdata.chartYNow = chartYNow
+            }
+            // 上周期
+            if (dataBefore.length>0) {//有数据
+                for (var i = 0; i < dataBefore.length; i++) {
+                    chartYBefore.push(dataBefore[i].nb_uniq_visitors_newcoming);
+                    countsBefore += dataBefore[i].nb_uniq_visitors_newcoming
+                }
+                // 纵坐标
+                this.box[4].chartsdata.chartYBefore = chartYBefore
+                if (chartYBefore==0) {
+                      this.box[4].chartsdata.num = 0;
+                      this.box[4].chartsdata.riseOrFall ='上升';
+                }else{
+                    if (countsNow-countsBefore>=0) {
+                        num = ((countsNow-countsBefore)/countsBefore).toFixed(2);
+                        this.box[4].chartsdata.num =num;
+                        this.box[4].chartsdata.riseOrFall ='上升';
+                    }else{
+                        num = ((countsBefore - countsNow)/countsBefore).toFixed(2);
+                        this.box[4].chartsdata.num =num;
+                        this.box[4].chartsdata.riseOrFall ='下降';
+                    }
+                }
+            }else{
+                this.box[4].chartsdata.num = 0;
+                this.box[4].chartsdata.riseOrFall ='上升';
+            }
+            // console.log(this.formatDate('2018-03-19'))
+        },
+
         // 日期格式函数
         formatDate(date) {
             var myyear = new Date(date).getFullYear();

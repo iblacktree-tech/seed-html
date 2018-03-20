@@ -12,7 +12,7 @@
                 <div class="head-time">{{chartdates.dates}}</div>
             </div> 
             <!-- 指标对比 -->
-            <div class="chart-duibi-info">
+            <div class="chart-duibi-info" v-show='!chartdates.isNull'>
                 <div class="gr-chart-aggregate-inner">
                     <div class="chart-aggregate-num">
                         {{chartdates.counts}}
@@ -43,10 +43,10 @@
                 </div>
             </div>  
             <!-- 图表 -->
-            <div class="echart-box" :id="chartdates.id">
+            <div class="echart-box" :id="chartdates.id" v-show='!chartdates.isNull'>
                 
             </div>
-            
+            <div class="echart-center" v-show='chartdates.isNull'>暂无数据</div>
         </div>
         <!-- <test v-bind:test-Val="val"></test> -->
     </div>
@@ -72,12 +72,12 @@ export default {
     props:['chartdates'],
     // props:{chartdates:'chartdates'},
     mounted(){
-       this.drawLine();
+       // this.drawLine();
        // console.log(this.chartdates)
     },
     watch: {
        chartsData(){ // chartdata 数据变化监听
-          console.log(9999)
+          // console.log(9999)
           this.drawLine()
        }
 
@@ -85,7 +85,7 @@ export default {
 
     methods:{
         drawLine(){
-          console.log(this.chartsData)
+          // console.log(this.chartsData)
           var that = this;
             // console.log(this.chartdates.chartX)
             // 基于准备好的dom，初始化echarts实例

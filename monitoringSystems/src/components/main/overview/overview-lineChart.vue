@@ -79,6 +79,25 @@ export default {
     mounted(){
        this.drawLine();
     },
+<<<<<<< .mine
+    watch: {
+       chartsData(){ // chartdata 数据变化监听
+          console.log(9999)
+          this.drawLine()
+       }
+
+    },
+
+=======
+
+
+
+
+
+
+
+
+>>>>>>> .theirs
     methods:{
         addBtnFn(){
             this.$store.commit('setHomeMsg',{

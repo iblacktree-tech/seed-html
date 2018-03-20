@@ -108,12 +108,19 @@ export default {
         }
     },
     created(){
-        this.getWebsiteData()
+        // this.getWebsiteData()
+    },
+    mounted(){
+       this.getWebsiteData()
     },
     computed:{
         itemIndex(){
             return this.$store.state.itemIndex;
+        },
+        chartTime(){
+            return this.$store.state.overview.chartTime;
         }
+
     },
     methods:{
         // 导航项目切换
@@ -147,6 +154,25 @@ export default {
                   this.$store.commit('webManagesData',{
                       webId:this.WebsiteManagement[0].siteid
                   })
+                  // 请求概览页图表数据
+                  this.$http.post('/api/glreport/getReportBasicdata', {
+                     // params: {
+                         siteid: this.WebsiteManagement[0].siteid,//网站siteid
+                         querydate: this.chartTime,//查询日期范围
+                         period: 'day'//数据粒度, 最小是day
+                     // }
+                  },{
+                      credentials: true,
+                      emulateJSON: true
+                  }).then(function(res) {
+                     // console.log(res.body) 
+                     // 存数据
+                     this.$store.commit('overviewData',{
+                         chartsData : res.body
+                     })
+                  },function(err){
+                      console.log(err.status)
+                  });
                 }
    
             },function(err){

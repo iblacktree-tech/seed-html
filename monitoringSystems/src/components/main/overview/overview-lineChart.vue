@@ -5,22 +5,22 @@
             <!-- 标题 时间 -->
             <div class="chart-head-wrapper">
                 <div class="chart-head-title">
-                    {{top.title}}
-                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="bottom" :title='top.title' v-if="top.title=='页面浏览量趋势'||top.title=='网站访问量趋势'"></i>
-                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='top.title' v-else></i>
+                    {{chartdates.title}}
+                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="bottom" :title='chartdates.title' v-if="chartdates.title=='页面浏览量趋势'||chartdates.title=='网站访问量趋势'"></i>
+                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='chartdates.title' v-else></i>
                 </div>
-                <div class="head-time">{{top.dates}}</div>
+                <div class="head-time">{{chartdates.dates}}</div>
             </div> 
             <!-- 指标对比 -->
             <div class="chart-duibi-info">
                 <div class="gr-chart-aggregate-inner">
                     <div class="chart-aggregate-num">
-                        {{duibi.counts}}
+                        {{chartdates.counts}}
                         <span class="suffix"></span>
-                    </div> <!-- 'chart-trend-up' ? duibi.riseOrFall : '上升','chart-trend-down' -->
+                    </div> 
                     <div class="chart-aggregate-percent">
-                        <div class="chart-trend " :class ="[{'chart-trend-up': duibi.riseOrFall=='上升'}, {'chart-trend-down': duibi.riseOrFall!='上升'}]">
-                            <svg class="svg-icon " v-if="duibi.riseOrFall=='上升'">
+                        <div class="chart-trend " :class ="[{'chart-trend-up': chartdates.riseOrFall=='上升'}, {'chart-trend-down': chartdates.riseOrFall!='上升'}]">
+                            <svg class="svg-icon " v-if="chartdates.riseOrFall=='上升'">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-up-trend">
                                   <svg xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16" id="icon-up-trend" width="100%" height="100%"> 
                                     <polygon id="icon-up-trend_XMLID_3_" points="8,3 3,11 13,11 "></polygon> 
@@ -35,19 +35,20 @@
                                 </use>
                             </svg>
 
-                            <span>{{duibi.num}}</span>
+                            <span>{{chartdates.num}}</span>
                             <span style="font-size: 12px;">%</span>
                         </div>
-                        <span class="chart-trend-desc">{{duibi.riseOrFall}}</span>
+                        <span class="chart-trend-desc">{{chartdates.riseOrFall}}</span>
                     </div>
                 </div>
             </div>  
             <!-- 图表 -->
-            <div class="echart-box" :id="chartData.id">
+            <div class="echart-box" :id="chartdates.id">
                 
             </div>
             
         </div>
+        <!-- <test v-bind:test-Val="val"></test> -->
     </div>
 </template>
 
@@ -57,29 +58,23 @@ export default {
     name : 'overview-lineChart',
     data() {
         return {
-            top:{
-                title: "页面浏览量趋势",
-                dates:"2018/01/18"
-            },
-            duibi:{
-                counts :200,
-                num : 10,
-                riseOrFall:"上升"
-            },
-            chartData:{
-                id: "echart-box1"
-            }
+          chartdate : this.chartdates.chartX
         }
     },
     computed:{
-        setHomeMsg(){
-            return this.$store.state.homeMsg;
-        },
+      chartsData(){
+          return this.$store.state.overview.chartsData;
+      },
+      chartsData(){
+          return this.$store.state.overview.chartsData;
+      }
     },
+    props:['chartdates'],
+    // props:{chartdates:'chartdates'},
     mounted(){
        this.drawLine();
+       // console.log(this.chartdates)
     },
-<<<<<<< .mine
     watch: {
        chartsData(){ // chartdata 数据变化监听
           console.log(9999)
@@ -88,25 +83,14 @@ export default {
 
     },
 
-=======
-
-
-
-
-
-
-
-
->>>>>>> .theirs
     methods:{
-        addBtnFn(){
-            this.$store.commit('setHomeMsg',{
-                msg:'你好'
-            })
-        },
         drawLine(){
+          console.log(this.chartsData)
+          var that = this;
+            // console.log(this.chartdates.chartX)
             // 基于准备好的dom，初始化echarts实例
-            let myChart = this.$echarts.init(document.getElementById(this.chartData.id))
+            if (this.chartdates.id==''||this.chartdates.id==null) return;
+            let myChart = this.$echarts.init(document.getElementById(that.chartdates.id))
             // console.log(myChart)
             // 绘制图表
             myChart.setOption({
@@ -138,8 +122,8 @@ export default {
                     },
                     type: 'category',
                     boundaryGap: false,
-                    data: ['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
-                    // data: res.chartData.chartTime,
+                    // data: ['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                    data: this.chartdates.chartX,
                 }],
                 yAxis: [{
                     // show: false,
@@ -163,8 +147,8 @@ export default {
                     type: 'line',
                     color:['rgb(255, 70, 131)'],
                     // symbol:'none',
-                    data: [800, 300, 500, 800, 300, 600, 500, 600,200],
-                    // data: res.chartData.chartNow,
+                    // data: [800, 300, 500, 800, 300, 600, 500, 600,200],
+                    data: this.chartdates.chartYNow,
                     areaStyle: { 
                         //渐变色
                         normal: {
@@ -182,18 +166,23 @@ export default {
                     type: 'line',
                     color:['#cccccc'],
                     // symbol:'none',
-                    data: [600, 300, 400, 200, 300, 300, 200, 400,800]
-                    // data:  res.chartData.chartBefore
+                    // data: [600, 300, 400, 200, 300, 300, 200, 400,800]
+                    data:  this.chartdates.chartYBefore
                 }]
-            });
-
+            },true);
+            // echarts 宽度 自适应
+            window.onresize = function(){
+                myChart.resize()
+            }
             // main-item-box 提示hover 显示
             $('.main-box-container').find('[data-toggle="tooltip"]').tooltip()
         }
     },
     components:{
-        // ovDateModal : ovDateModal
-    }
+        
+        
+    } 
+   
 }
 </script>
 

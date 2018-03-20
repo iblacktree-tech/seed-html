@@ -2,13 +2,11 @@
     <div class="overview-main">
         <div class="row main-box-container">
             <div :class='item.c' v-for='(item,index) in box'>
-                <lineChart v-if="index<5"></lineChart>
-                <barChart v-else-if="index>=5&&index!=7">
-                    
-                </barChart>
-                <pieChart v-else></pieChart>
+                <lineChart v-if="index<5" :chartdates="box[index].chartsdata"></lineChart>
+                <barChart v-else-if="index>=5&&index!=7" :chartdates="box[index].chartsdata"></barChart>
+                <pieChart v-else :chartdates="box[index].chartsdata"></pieChart>
             </div>
-
+             
         </div>
     
     </div>
@@ -23,16 +21,106 @@ export default {
     data() {
         return {
             box:[
-                {c:'col-xs-6'},
-                {c:'col-xs-6'},
-                {c:'col-xs-4'},
-                {c:'col-xs-4'},
-                {c:'col-xs-4'},
-                {c:'col-xs-6'},
-                {c:'col-xs-6'},
-                {c:'col-xs-4'},
-                {c:'col-xs-4'},
-                {c:'col-xs-4'}
+                {
+                    c:'col-xs-6',
+                    chartsdata:{
+                        title: "页面浏览量趋势",//标题
+                        dates:"2018/01/18",//日期
+                        counts :200,//数量
+                        num : 10,//上升或者下降数量
+                        riseOrFall:"上升",// 上升或者下降
+                        id : "echart-box1",
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[]
+                    }
+                },
+                {
+                    c:'col-xs-6',
+                    chartsdata:{
+                        title: "页面浏览量趋势",//标题
+                        dates:"2018/01/18",//日期
+                        counts :200,//数量
+                        num : 10,//上升或者下降数量
+                        riseOrFall:"上升",// 上升或者下降
+                        id : "echart-box2",
+                        chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
+                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800]
+                    }
+                },
+                {
+                    c:'col-xs-4',
+                    chartsdata:{
+                        title: "页面浏览量趋势",//标题
+                        dates:"2018/01/18",//日期
+                        counts :200,//数量
+                        num : 10,//上升或者下降数量
+                        riseOrFall:"上升",// 上升或者下降
+                        id : "echart-box3",
+                        chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
+                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800]
+                    }
+                },
+                {
+                    c:'col-xs-4',
+                    chartsdata:{
+                        title: "页面浏览量趋势",//标题
+                        dates:"2018/01/18",//日期
+                        counts :200,//数量
+                        num : 10,//上升或者下降数量
+                        riseOrFall:"上升",// 上升或者下降
+                        id : "echart-box4",
+                        chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
+                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800]
+                    }
+                },
+                {
+                    c:'col-xs-4',
+                    chartsdata:{
+                        title: "页面浏览量趋势",//标题
+                        dates:"2018/01/18",//日期
+                        counts :200,//数量
+                        num : 10,//上升或者下降数量
+                        riseOrFall:"上升",// 上升或者下降
+                        id : "echart-box5",
+                        chartX:['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
+                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
+                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800]
+                    }
+                },
+                {
+                    c:'col-xs-6',
+                    chartsdata:{
+
+                    }
+                },
+                {
+                    c:'col-xs-6',
+                    chartsdata:{
+
+                    }
+                },
+                {
+                    c:'col-xs-4',
+                    chartsdata:{
+
+                    }
+                },
+                {
+                    c:'col-xs-4',
+                    chartsdata:{
+
+                    }
+                },
+                {
+                    c:'col-xs-4',
+                    chartsdata:{
+
+                    }
+               }
             ],
 
         }
@@ -44,48 +132,22 @@ export default {
        
     },
     computed:{
-        webId(){
-            return this.$store.state.webManages.webId;
-        },
-        chartTime(){
-            return this.$store.state.overview.chartTime;
-        },
         chartsData(){
             return this.$store.state.overview.chartsData;
-        },
+        }
     },
     watch: {
-       webId :function(){
-         console.log(this.webId)
-         console.log(this.chartTime)
-         this.$http.get('/api/glreport/getReportBasicdata', {
-            params: {
-                siteid: this.webId,//网站siteid
-                querydate: this.chartTime,//查询日期范围
-                period: 'day'//数据粒度, 最小是day
-            }
-         },{
-             credentials: true,
-             emulateJSON: true
-         }).then(function(res) {
-            console.log(res.body.data) 
-         },function(err){
-             // console.log(err.status)
-         });
-       },
-       chartsData(){
-           console.log(this.chartsData) 
+       chartsData(){ // chartdata 数据变化监听
+           // console.log(this.chartsData) 
+           this.pageviews()
        }
     },
     methods:{
-<<<<<<< HEAD
-        
-=======
         pageviews(){//页面浏览量
             var that = this
             let dataNow = this.chartsData.data1.data
             let dataBefore = this.chartsData.data2.data
-            let counts = 0,countsNow = 0,countsBefore = 0,num=0,chartX=[],chartYNow=[],chartYBefore=[]
+            let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
 
             console.log(this.chartsData.data1.data)
             // 本周期
@@ -100,8 +162,8 @@ export default {
                 }
                 //页面访问量总量
                 this.box[0].chartsdata.counts = counts
-                //本周期页面访问量总量
-                countsNow = counts
+                //页面访问量总量
+                this.box[0].chartsdata.countsNow = counts
                 // 横坐标
                 this.box[0].chartsdata.chartX = chartX
                 // 纵坐标
@@ -116,32 +178,7 @@ export default {
                 }
                 // 纵坐标
                 this.box[0].chartsdata.chartYBefore = chartYBefore
-            }else{
-                for (var i = 0; i < dataNow.length; i++) {
-                    chartYBefore.push(0);
-                    countsBefore += 0
-                }
-                // 纵坐标
-                this.box[0].chartsdata.chartYBefore = chartYBefore
             }
-
-            // 数据比较
-            if (countsBefore>0) {
-              if (countsNow-countsBefore>=0) {
-                  num = ((countsNow-countsBefore)/countsBefore).toFixed(2)
-                  this.box[0].chartsdata.num = num;
-                  this.box[0].chartsdata.riseOrFall = '上升';
-              }else{
-                  num = ((countsBefore - countsNow)/countsBefore).toFixed(2)
-                  this.box[0].chartsdata.num = num;
-                  this.box[0].chartsdata.riseOrFall = '下降';
-              }
-
-            }else{
-                this.box[0].chartsdata.num = 0;
-                this.box[0].chartsdata.riseOrFall = '上升';
-            }
-            
             // console.log(this.formatDate('2018-03-19'))
 
             this.$store.commit('overviewData',{
@@ -167,7 +204,6 @@ export default {
             return days
 
         }
->>>>>>> b42b2d4... 233
     },
     components:{
         lineChart : lineChart,

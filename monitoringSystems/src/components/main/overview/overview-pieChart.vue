@@ -33,7 +33,7 @@ export default {
                 riseOrFall:"上升"
             },
             chartData:{
-                id: "echart-box4"
+                id: "echart-box7"
             }
         }
     },
@@ -45,6 +45,7 @@ export default {
     mounted(){
        this.drawLine();
     },
+    props:['chartdates'],
     methods:{
         addBtnFn(){
             this.$store.commit('setHomeMsg',{
@@ -118,6 +119,11 @@ export default {
             $('<p class="echart-textP1_b" style="color: #999;font-size: 12px;">总访问用户量</p>').appendTo(textBox);
             $('<p class="echart-textP2_b" style="color: #333;font-size: 22px;">'+2000+'</p>').appendTo(textBox);
             textBox.appendTo('#' +this.chartData.id)
+            
+            // echarts 宽度 自适应
+            window.onresize = function(){
+                myChart.resize()
+            }
             // main-item-box 提示hover 显示
             $('.main-box-container').find('[data-toggle="tooltip"]').tooltip()
         }

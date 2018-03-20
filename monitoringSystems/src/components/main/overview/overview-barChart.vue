@@ -39,6 +39,7 @@ export default {
             return this.$store.state.homeMsg;
         },
     },
+    props:['chartdates'],
     mounted(){
        this.drawLine();
     },
@@ -145,7 +146,10 @@ export default {
              //       }]
              //     })
              // }
-
+             // echarts 宽度 自适应
+             window.onresize = function(){
+                 myChart.resize()
+             }
         }
     },
     components:{

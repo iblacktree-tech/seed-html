@@ -1,5 +1,5 @@
 <template>
-    <div class="login" ref="ttttt" data-test001="20">
+    <div class="login">
         <!-- 登录 -->
         <nav class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -20,7 +20,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="username">账号</label>
-                            <input type="text" class="form-control" id="username" placeholder="请输入" v-model="username" >
+                            <input type="text" class="form-control" id="username" placeholder="请输入" v-model="username">
                         </div>
                         <div class="form-group">
                             <label for="password">密码</label>
@@ -42,25 +42,17 @@ export default {
     name : 'login',
     data() {
         return {
-           username:'test01',
-           password:'test01'
+           username:'',
+           password:''
         }
     },
     computed:{
 
     },
-    mounted(){
-      this.consolelog()
-    },
     created(){
       // this.ajax()
     },
     methods:{
-        consolelog(){
-              console.log(this.$refs.ttttt);
-              console.log(document.getElementById('username'));
-              console.log($('#username').length)
-        },
         loginIn(){
             this.$http.get('/api/gl/logon', {
                 params: {

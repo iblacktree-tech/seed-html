@@ -67,62 +67,30 @@ export default {
           // 颜色更换
            this.modalDateItemActive = index;
            // this.dataShow();
+
           // 请求数据
-
-          if (index<2) {//今天，昨天数据
-              this.$store.commit('overviewData',{
-                  chartTime : this.dateItems[index].thisCycle.from
-              })
-              // 请求后台chart数据
-              this.$http.get('/api/glreport/getReportBasicdata', {
-                 params: {
-                     siteid: this.webId,//网站siteid
-                     querydate: this.dateItems[index].thisCycle.from,//查询日期范围
-                     segment: '',//拼写过滤条件
-                     period: 'day'//数据粒度, 最小是day
-                 }
-              },{
-                  credentials: true,
-                  emulateJSON: true
-              }).then(function(res) {
-                 // console.log(res.body.data)
-                  this.$store.commit('overviewData',{
-                      chartsData : res.body.data
-                  })
-              },function(err){
-                  console.log(err.status)
-              });
-          }else{
-              this.$store.commit('overviewData',{
-                  chartTime : this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to
-              })
-              // 请求后台chart数据
-              this.$http.get('/api/glreport/getReportBasicdata', {
-                 params: {
-                     siteid: this.webId,//网站siteid
-                     querydate: this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to,//查询日期范围
-                     segment: '',//拼写过滤条件
-                     period: 'day'//数据粒度, 最小是day
-                 }
-              },{
-                  credentials: true,
-                  emulateJSON: true
-              }).then(function(res) {
-                 // console.log(res.body.data)
-                 this.$store.commit('overviewData',{
-                     chartsData : res.body.data
-                 })
-              },function(err){
-                  console.log(err.status)
-              });
-          }
-
-
-
-
-
-
-          
+          this.$store.commit('overviewData',{
+              chartTime : this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to
+          })
+          // 请求后台chart数据
+          this.$http.post('/api/glreport/getReportBasicdata', {
+             // params: {
+                 siteid: this.webId,//网站siteid
+                 querydate: this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to,//查询日期范围
+                 segment: '',//拼写过滤条件
+                 period: 'day'//数据粒度, 最小是day
+             // }
+          },{
+              credentials: true,
+              emulateJSON: true
+          }).then(function(res) {
+             // console.log(res.body.data)
+             this.$store.commit('overviewData',{
+                 chartsData : res.body
+             })
+          },function(err){
+              console.log(err.status)
+          }); 
         },
         //获取本周，上周等开始结束日期函数
         dates(){
@@ -280,7 +248,7 @@ export default {
           init();
 
           this.$store.commit('overviewData',{
-              chartTime : this.dateItems[1].thisCycle.from
+              chartTime : this.dateItems[1].thisCycle.from +","+this.dateItems[1].thisCycle.to
           })
         }
         

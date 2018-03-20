@@ -6,7 +6,7 @@
           <div class="chart-head-wrapper">
               <div class="chart-head-title">
                   {{top.title}}
-                <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='top.title'></i>
+                <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='top.des'></i>
               </div>
               <div class="head-time">{{top.dates}}</div>
           </div> 

@@ -7,7 +7,7 @@
                 <div class="chart-head-title">
                     {{chartdates.title}}
                   <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="bottom" :title='chartdates.title' v-if="chartdates.title=='页面浏览量趋势'||chartdates.title=='网站访问量趋势'"></i>
-                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='chartdates.title' v-else></i>
+                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='chartdates.des' v-else></i>
                 </div>
                 <div class="head-time">{{chartdates.dates}}</div>
             </div> 

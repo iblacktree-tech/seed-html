@@ -25,6 +25,7 @@ export default {
                     c:'col-xs-6',
                     chartsdata:{
                         title: "页面浏览量趋势",//标题
+                        des: "页面浏览量趋势",//描述
                         dates:"",//日期
                         counts :0,//数量
                         num : 0,//上升或者下降数量
@@ -40,6 +41,7 @@ export default {
                     c:'col-xs-6',
                     chartsdata:{
                         title: "网站访问量趋势",//标题
+                        des: "网站访问量趋势",//描述
                         dates:"",//日期
                         counts :0,//数量
                         num : 0,//上升或者下降数量
@@ -55,6 +57,7 @@ export default {
                     c:'col-xs-4',
                     chartsdata:{
                         title: "访问用户量趋势",//标题
+                        des: "访问用户量趋势",//描述
                         dates:"",//日期
                         counts :0,//数量
                         num : 0,//上升或者下降数量
@@ -70,6 +73,7 @@ export default {
                     c:'col-xs-4',
                     chartsdata:{
                         title: "每次访问页面浏览量趋势",//标题
+                        des: "每次访问页面浏览量趋势",//描述
                         dates:"",//日期
                         counts :0,//数量
                         num : 0,//上升或者下降数量
@@ -85,6 +89,7 @@ export default {
                     c:'col-xs-4',
                     chartsdata:{
                       title: "新访问用户量趋势",//标题
+                      des: "新访问用户量趋势",//描述
                       dates:"",//日期
                       counts :0,//数量
                       num : 0,//上升或者下降数量
@@ -100,6 +105,7 @@ export default {
                     c:'col-xs-4',
                     chartsdata:{
                         title: "页面（URL）进入量前10名",//标题
+                        des: "页面（URL）进入量前10名",//描述
                         dates:"2018/01/18",//日期
                         counts :200,//数量
                         num : 10,//上升或者下降数量
@@ -115,6 +121,7 @@ export default {
                     c:'col-xs-6',
                     chartsdata:{
                       title: "站外搜索搜索词进入量前10名",//标题
+                      des: "站外搜索搜索词进入量前10名",//描述
                       dates:"2018/01/18",//日期
                       counts :200,//数量
                       num : 10,//上升或者下降数量
@@ -130,6 +137,7 @@ export default {
                     c:'col-xs-6',
                     chartsdata:{
                       title: "访问用户一级访问来源",//标题
+                      des: "访问用户一级访问来源",//描述
                       dates:"2018/01/18",//日期
                       counts :200,//数量
                       num : 10,//上升或者下降数量
@@ -145,6 +153,7 @@ export default {
                     c:'col-xs-4',
                     chartsdata:{
                       title: "广告来源访问用户量前10名",//标题
+                      des: "广告来源访问用户量前10名",//描述
                       dates:"2018/01/18",//日期
                       counts :200,//数量
                       num : 10,//上升或者下降数量
@@ -160,6 +169,7 @@ export default {
                     c:'col-xs-4',
                     chartsdata:{
                       title: "城市名称访问用户量前10名",//标题
+                      des: "城市名称访问用户量前10名",//描述
                       dates:"2018/01/18",//日期
                       counts :200,//数量
                       num : 10,//上升或者下降数量

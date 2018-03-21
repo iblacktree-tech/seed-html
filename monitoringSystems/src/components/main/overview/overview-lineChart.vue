@@ -42,11 +42,13 @@
                     </div>
                 </div>
             </div>  
+            <!-- <img alt="" class="loading" :src="imgUrl"> -->
             <!-- 图表 -->
             <div class="echart-box" :id="chartdates.id" v-show='!chartdates.isNull'>
                 
             </div>
             <div class="echart-center" v-show='chartdates.isNull'>暂无数据</div>
+            
         </div>
         <!-- <test v-bind:test-Val="val"></test> -->
     </div>
@@ -58,13 +60,10 @@ export default {
     name : 'overview-lineChart',
     data() {
         return {
-          chartdate : this.chartdates.chartX
+          imgUrl:'../assets/loading.png'
         }
     },
     computed:{
-      chartsData(){
-          return this.$store.state.overview.chartsData;
-      },
       chartsData(){
           return this.$store.state.overview.chartsData;
       }
@@ -187,6 +186,16 @@ export default {
 </script>
 
 <style scoped>
+    .loading{
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left:-100px;
+        margin-top: -100px;
+        z-index: 50;
+    }
     .main-item-box{
       border: 1px solid #dae2e5;
       height: 270px;

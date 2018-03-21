@@ -5,16 +5,16 @@
           <!-- 标题 时间 -->
           <div class="chart-head-wrapper">
               <div class="chart-head-title">
-                  {{top.title}}
-                <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='top.des'></i>
+                  {{chartdates.title}}
+                <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='chartdates.des'></i>
               </div>
-              <div class="head-time">{{top.dates}}</div>
+              <div class="head-time">{{chartdates.dates}}</div>
           </div> 
           <!-- 图表 -->
-          <div class="echart-box" :id="chartData.id">
+          <div class="echart-box" :id="chartdates.id" v-show='!chartdates.isNull'>
               
           </div>
-          
+          <div class="echart-center" v-show='chartdates.isNull'>暂无数据</div>
       </div>
     </div>
 </template>
@@ -25,47 +25,38 @@ export default {
     name : 'overview-barChart',
     data() {
         return {
-            top:{
-                title: "页面浏览量趋势",
-                dates:"2018/01/18"
-            },
-            chartData:{
-                id: "echart-box6"
-            }
         }
     },
     computed:{
-        setHomeMsg(){
-            return this.$store.state.homeMsg;
-        },
+        chartsData(){
+            return this.$store.state.overview.chartsData;
+        }
     },
     props:['chartdates'],
     mounted(){
-       this.drawLine();
+       // this.drawLine();
+    },
+    props:['chartdates'],
+    watch: {
+       chartsData(){ // chartdata 数据变化监听
+          // console.log(9999)
+          this.drawLine()
+       }
+
     },
     methods:{
-        addBtnFn(){
-            this.$store.commit('setHomeMsg',{
-                msg:'你好'
-            })
-        },
         drawLine(){
+            var that =this;
             // 基于准备好的dom，初始化echarts实例
-            let myChart = this.$echarts.init(document.getElementById(this.chartData.id))
+            let myChart = this.$echarts.init(document.getElementById(this.chartdates.id))
             // 定义样式和数据
             // 计算百分比
-            // var sum = 0;
-            // for (x in res.chartData.chartNow){
-            //   sum+= parseInt(res.chartData.chartNow[x])
-            //   // console.log(x)
-            // }
-             // console.log((18203/sum *100).toFixed(2) +"%")
-            var arr =[18203, 23489, 29034, 104970, 131744, 630230]
-             var sum = 0;
-            for (var x in arr){
-              sum+= parseInt(arr[x])
+            var sum = 0;
+            for (var x in this.chartdates.chartX){
+              sum+= parseInt(this.chartdates.chartX[x])
               // console.log(x)
             }
+
              myChart.setOption({
                   tooltip: {
                     show:true
@@ -108,17 +99,27 @@ export default {
                       },
                       axisLabel: {        
                             show: true,
-                            color: "#000000"
+                            interval:0,
+                            color: "#000000",
+                            align: 'right',
+                            formatter: function (value, index) {
+                              
+                              if (value !=null&&value !='') {
+                                // console.log(value.substring(0,10))
+                                return value.substring(0,15)
+                              }
+                                
+                            }
                         },
-                      data: ['巴西','印尼','美国','印度','中国','世界人口(万)']
-                      // data: res.chartData.chartTime
+                      // data: ['巴西','印尼','美国','印度','中国','世界人口(万)']
+                      data: that.chartdates.chartY
                   },
                   series: [
                       {
                           name: '2011年',
                           type: 'bar',
-                          // data: res.chartData.chartNow,
-                          data: [18203, 23489, 29034, 104970, 131744, 630230],
+                          data: that.chartdates.chartX,
+                          // data: [18203, 23489, 29034, 104970, 131744, 630230],
                           label: {
                                 normal: {
                                     show: true,
@@ -138,14 +139,17 @@ export default {
                   ]
               });
              // 只有一个数据
-             // if (res.chartData.chartNow.length==1) {
-             //     myChart.setOption({
-             //       series: [{
-             //        barWidth:'auto',
-             //        barMaxWidth:80,
-             //       }]
-             //     })
-             // }
+             if (this.chartdates.chartY !=''&&this.chartdates.chartY !=null) {
+                if (this.chartdates.chartY.length==1) {
+                    myChart.setOption({
+                      series: [{
+                       barWidth:'auto',
+                       barMaxWidth:80,
+                      }]
+                    })
+                }
+             }
+             
              // echarts 宽度 自适应
              window.onresize = function(){
                  myChart.resize()

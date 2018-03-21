@@ -5,14 +5,15 @@
             <!-- 标题 时间 -->
             <div class="chart-head-wrapper">
                 <div class="chart-head-title">
-                    {{top.title}}
-                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='top.des'></i>
+                    {{chartdates.title}}
+                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="chartdates" :title='chartdates.des'></i>
                 </div>
-                <div class="head-time">{{top.dates}}</div>
+                <div class="head-time">{{chartdates.dates}}</div>
             </div> 
             <!-- 图表 -->
-            <div class="echart-box echart-box2" :id="chartData.id">
+            <div class="echart-box echart-box2" :id="chartdates.id" v-show='!chartdates.isNull'>
             </div>
+            <div class="echart-center" v-show='chartdates.isNull'>暂无数据</div>
         </div>
     </div>
 </template>
@@ -23,38 +24,31 @@ export default {
     name : 'overview-pieChart',
     data() {
         return {
-            top:{
-                title: "页面浏览量趋势",
-                dates:"2018/01/18"
-            },
-            duibi:{
-                counts :200,
-                num : 10,
-                riseOrFall:"上升"
-            },
-            chartData:{
-                id: "echart-box7"
-            }
         }
     },
     computed:{
-        setHomeMsg(){
-            return this.$store.state.homeMsg;
-        },
-    },
-    mounted(){
-       this.drawLine();
+        chartsData(){
+            return this.$store.state.overview.chartsData;
+        }
     },
     props:['chartdates'],
+    mounted(){
+       // this.drawLine();
+    },
+    watch: {
+       chartsData(){ // chartdata 数据变化监听
+          // console.log(9999)
+          this.drawLine()
+       }
+
+    },
+    
     methods:{
-        addBtnFn(){
-            this.$store.commit('setHomeMsg',{
-                msg:'你好'
-            })
-        },
+
         drawLine(){
+            var that =this;
             // // 基于准备好的dom，初始化echarts实例
-            let myChart = this.$echarts.init(document.getElementById(this.chartData.id))
+            let myChart = this.$echarts.init(document.getElementById(this.chartdates.id))
             // 总访问用户量
             var  sum = 0;
 
@@ -69,8 +63,8 @@ export default {
                     x: 'center', //距离x轴的距离
                     // y: 'bottom', //距离Y轴的距离
                     bottom : 10,
-                    // data: res.chartData.chartName
-                    data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+                    data: that.chartdates.chartName
+                    // data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
                 },
                 series: [
                     {
@@ -90,35 +84,35 @@ export default {
                                 show: false
                             }
                         },
-                        // data: (function(){
-                        //   // console.log(res.chartData.chartName.length)
-                        //   var dataArr = [];
-                        //   for (var i = 0; i < res.chartData.chartName.length; i++) {
-                        //     dataArr.push({
-                        //       name: res.chartData.chartName[i],
-                        //       value: res.chartData.chartValue[i]
-                        //     });
+                        data: (function(){
+                          // console.log(res.chartData.chartName.length)
+                          var dataArr = [];
+                          for (var i = 0; i < that.chartdates.chartName.length; i++) {
+                            dataArr.push({
+                              name: that.chartdates.chartName[i],
+                              value: that.chartdates.chartValue[i]
+                            });
 
-                        //     sum+= parseInt(res.chartData.chartValue[i])
-                        //   }
-                        //   return dataArr;
-                        // })()
-                        data:[
-                            {value:335, name:'直接访问'},
-                            {value:310, name:'邮件营销'},
-                            {value:234, name:'联盟广告'},
-                            {value:135, name:'视频广告'},
-                            {value:1548, name:'搜索引擎'}
-                        ]
+                            sum+= parseInt(that.chartdates.chartValue[i])
+                          }
+                          return dataArr;
+                        })()
+                        // data:[
+                        //     {value:335, name:'直接访问'},
+                        //     {value:310, name:'邮件营销'},
+                        //     {value:234, name:'联盟广告'},
+                        //     {value:135, name:'视频广告'},
+                        //     {value:1548, name:'搜索引擎'}
+                        // ]
                     }
                 ]
             });
 
             // 生成饼图圆圈内文本
             var textBox = $('<div class="echart-textBox" style=" text-align: center; white-space: nowrap;position:absolute;top: 62px;left: 50%;transform: translate(-50%,0);visibility: visible;"></div>')
-            $('<p class="echart-textP1_b" style="color: #999;font-size: 12px;">总访问用户量</p>').appendTo(textBox);
+            $('<p class="echart-textP1_b" style="color: #999;font-size: 12px; margin-top: 5px; margin-bottom: -2px;">总访问用户量</p>').appendTo(textBox);
             $('<p class="echart-textP2_b" style="color: #333;font-size: 22px;">'+2000+'</p>').appendTo(textBox);
-            textBox.appendTo('#' +this.chartData.id)
+            textBox.appendTo('#' +this.chartdates.id)
             
             // echarts 宽度 自适应
             window.onresize = function(){

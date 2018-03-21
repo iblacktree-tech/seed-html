@@ -211,6 +211,10 @@ export default {
               this.$store.commit('webManagesData',{
                   webId:this.WebsiteManagement[index].siteid
               })
+              // 用于 图表loading隐藏 图表显示
+              this.$store.commit('overviewData',{
+                  chartLoading : 'show'
+              })
             }
           }
           

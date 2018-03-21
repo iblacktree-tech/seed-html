@@ -9,7 +9,8 @@ let store = new Vuex.Store({
 			modalIsShow: "off", //日期弹框显示与否 控制
 			modalDateChose: "昨天", //弹框选择后，显示在右侧的日期
 			chartsData:[], //概览页 图表数据
-			chartTime:'' //图表选择日期
+			chartTime:'', //图表选择日期
+			chartLoading: 'show', //图表loading 是否显示
 		},
 		webManages:{//网站管理
 			pageData:[],//页面数据
@@ -113,7 +114,10 @@ let store = new Vuex.Store({
 			if (data.chartTime) {
 				state.overview.chartTime=data.chartTime;
 			}
-
+			// 概览页 图表loading 是否显示
+			if (data.chartLoading) {
+				state.overview.chartLoading=data.chartLoading;
+			}
 
 		},
 		webManagesData(state,data){

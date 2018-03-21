@@ -11,10 +11,11 @@
               <div class="head-time">{{chartdates.dates}}</div>
           </div> 
           <!-- 图表 -->
-          <div class="echart-box" :id="chartdates.id" v-show='!chartdates.isNull'>
+          <div class="echart-box" :id="chartdates.id" v-show='!chartdates.isNull' :class='{"chartShow":chartLoading=="hide"}'>
               
           </div>
-          <div class="echart-center" v-show='chartdates.isNull'>暂无数据</div>
+          <div class="echart-center" v-show='chartdates.isNull&&chartLoading=="hide"'>暂无数据</div>
+          <img alt="" class="loading" :src="imgUrl" v-show="chartLoading=='show'">
       </div>
     </div>
 </template>
@@ -25,11 +26,12 @@ export default {
     name : 'overview-barChart',
     data() {
         return {
+            imgUrl:'../../static/img/loading.png'
         }
     },
     computed:{
-        chartsData(){
-            return this.$store.state.overview.chartsData;
+        chartLoading(){
+            return this.$store.state.overview.chartLoading;
         }
     },
     props:['chartdates'],
@@ -38,10 +40,12 @@ export default {
     },
     props:['chartdates'],
     watch: {
-       chartsData(){ // chartdata 数据变化监听
-          // console.log(9999)
-          this.drawLine()
-       }
+       chartLoading(){
+         // console.log(11111)
+           if (this.chartLoading =="hide") {
+               this.drawLine()
+           }
+        }
 
     },
     methods:{
@@ -170,7 +174,41 @@ export default {
     .main-box-container>div{
       padding:5px;
     }
-
+    .chartShow{
+        opacity: 1!important;
+    }
+    .loading{
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left:-25px;
+        margin-top: -25px;
+        z-index: 50;
+        -webkit-animation: load 2s infinite ease;
+        animation: load 2s infinite ease;
+    }
+    @-webkit-keyframes load {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes load {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
 
     /*main-item-box内容*/
 
@@ -180,7 +218,7 @@ export default {
       width: 100%;
       background-color: #fff;
       padding: 10px 10px 0 15px;
-
+      
     }
 
 
@@ -286,6 +324,7 @@ export default {
 
     .echart-box{
       height: 183px;
+      opacity: 0;
       /*margin-top: -30px;*/
     }
 

@@ -180,7 +180,7 @@ export default {
     watch: {
        chartsData(){ // chartdata 数据变化监听
            // console.log(this.chartsData) 
-           this.pageviews()
+           
            this.visits()
            this.uniq_visitors()
            this.pageOnces()
@@ -190,18 +190,21 @@ export default {
            this.firstSource()
            this.refererlev1()
            this.citytop10()
-           
+
+           this.pageviews()
        }
     },
     methods:{
         pageviews(){//页面浏览量
             var that = this
             let dataNow = this.chartsData.data1.data
-            // console.log( this.chartsData)
+            console.log( this.chartsData)
             let dataBefore = this.chartsData.data2.data
             let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
 
-            // console.log(this.chartsData.data1.data)
+            if (dataNow==null&&dataBefore==null) {
+                this.box[0].chartsdata.isNull=true //是否显示暂无数据
+            }
             // 本周期
             if (dataNow!=null) {//有数据
                 // 日期
@@ -260,16 +263,12 @@ export default {
             }
 
 
-
-            if (dataNow.length==0&&dataBefore.length==0) {
-                this.box[0].chartsdata.isNull=true //是否显示暂无数据
-            }
-
             // console.log(this.formatDate('2018-03-19'))
-
+            // 用于 图表loading隐藏 图表显示
             this.$store.commit('overviewData',{
-                charChange : counts
+                chartLoading : 'hide'
             })
+            
         },
         visits(){//网站访问量趋势
             var that = this

@@ -11,9 +11,10 @@
                 <div class="head-time">{{chartdates.dates}}</div>
             </div> 
             <!-- 图表 -->
-            <div class="echart-box echart-box2" :id="chartdates.id" v-show='!chartdates.isNull'>
+            <div class="echart-box echart-box2" :id="chartdates.id" v-show='!chartdates.isNull' :class='{"chartShow":chartLoading=="hide"}'>
             </div>
-            <div class="echart-center" v-show='chartdates.isNull'>暂无数据</div>
+            <div class="echart-center" v-show='chartdates.isNull&&chartLoading=="hide"'>暂无数据</div>
+            <img alt="" class="loading" :src="imgUrl" v-show="chartLoading=='show'">
         </div>
     </div>
 </template>
@@ -24,11 +25,12 @@ export default {
     name : 'overview-pieChart',
     data() {
         return {
+            imgUrl:'../../static/img/loading.png'
         }
     },
     computed:{
-        chartsData(){
-            return this.$store.state.overview.chartsData;
+        chartLoading(){
+            return this.$store.state.overview.chartLoading;
         }
     },
     props:['chartdates'],
@@ -36,10 +38,14 @@ export default {
        // this.drawLine();
     },
     watch: {
-       chartsData(){ // chartdata 数据变化监听
-          // console.log(9999)
-          this.drawLine()
-       }
+       chartLoading(){
+         // console.log(11111)
+           if (this.chartLoading =="hide") {
+               this.drawLine()  
+           }else{
+                $('.chart-box').find('.echart-textBox').remove()
+           }
+        }
 
     },
     
@@ -111,7 +117,7 @@ export default {
             // 生成饼图圆圈内文本
             var textBox = $('<div class="echart-textBox" style=" text-align: center; white-space: nowrap;position:absolute;top: 62px;left: 50%;transform: translate(-50%,0);visibility: visible;"></div>')
             $('<p class="echart-textP1_b" style="color: #999;font-size: 12px; margin-top: 5px; margin-bottom: -2px;">总访问用户量</p>').appendTo(textBox);
-            $('<p class="echart-textP2_b" style="color: #333;font-size: 22px;">'+2000+'</p>').appendTo(textBox);
+            $('<p class="echart-textP2_b" style="color: #333;font-size: 22px;">'+sum+'</p>').appendTo(textBox);
             textBox.appendTo('#' +this.chartdates.id)
             
             // echarts 宽度 自适应
@@ -136,8 +142,41 @@ export default {
     .main-box-container>div{
       padding:5px;
     }
-
-
+    .chartShow{
+        opacity: 1!important;
+    }
+    .loading{
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left:-25px;
+        margin-top: -25px;
+        z-index: 50;
+        -webkit-animation: load 2s infinite ease;
+        animation: load 2s infinite ease;
+    }
+    @-webkit-keyframes load {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes load {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
     /*main-item-box内容*/
 
     .chart-box{
@@ -146,7 +185,7 @@ export default {
       width: 100%;
       background-color: #fff;
       padding: 10px 10px 0 15px;
-
+      
     }
 
 
@@ -252,6 +291,7 @@ export default {
 
     .echart-box{
       height: 183px;
+      opacity: 0;
       /*margin-top: -30px;*/
     }
 

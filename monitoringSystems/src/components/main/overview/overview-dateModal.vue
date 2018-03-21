@@ -60,37 +60,41 @@ export default {
     methods:{
         // 选择日期函数
         choseDate(index){
-          // 更改标签上的 日期显示
-           this.$store.commit('overviewData',{
-               modalDateChose : this.dateItems[index].itemName
-           })
-          // 颜色更换
-           this.modalDateItemActive = index;
-           // this.dataShow();
+            // 更改标签上的 日期显示
+            this.$store.commit('overviewData',{
+                modalDateChose : this.dateItems[index].itemName
+            })
+            // 用于 图表loading隐藏 图表显示
+            this.$store.commit('overviewData',{
+                chartLoading : 'show'
+            })
+            // 颜色更换
+             this.modalDateItemActive = index;
+             // this.dataShow();
 
-          // 请求数据
-          this.$store.commit('overviewData',{
-              chartTime : this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to
-          })
-          // 请求后台chart数据
-          this.$http.post('/api/glreport/getReportBasicdata', {
-             // params: {
-                 siteid: this.webId,//网站siteid
-                 querydate: this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to,//查询日期范围
-                 segment: '',//拼写过滤条件
-                 period: 'day'//数据粒度, 最小是day
-             // }
-          },{
-              credentials: true,
-              emulateJSON: true
-          }).then(function(res) {
-             // console.log(res.body.data)
-             this.$store.commit('overviewData',{
-                 chartsData : res.body
-             })
-          },function(err){
-              console.log(err.status)
-          }); 
+            // 请求数据
+            this.$store.commit('overviewData',{
+                chartTime : this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to
+            })
+            // 请求后台chart数据
+            this.$http.post('/api/glreport/getReportBasicdata', {
+               // params: {
+                   siteid: this.webId,//网站siteid
+                   querydate: this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to,//查询日期范围
+                   segment: '',//拼写过滤条件
+                   period: 'day'//数据粒度, 最小是day
+               // }
+            },{
+                credentials: true,
+                emulateJSON: true
+            }).then(function(res) {
+               // console.log(res.body.data)
+               this.$store.commit('overviewData',{
+                   chartsData : res.body
+               })
+            },function(err){
+                console.log(err.status)
+            }); 
         },
         //获取本周，上周等开始结束日期函数
         dates(){

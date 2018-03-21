@@ -12,7 +12,7 @@
                 <div class="head-time">{{chartdates.dates}}</div>
             </div> 
             <!-- 指标对比 -->
-            <div class="chart-duibi-info" v-show='!chartdates.isNull'>
+            <div class="chart-duibi-info" v-show='!chartdates.isNull&&chartLoading=="hide"'>
                 <div class="gr-chart-aggregate-inner">
                     <div class="chart-aggregate-num">
                         {{chartdates.counts}}
@@ -42,13 +42,12 @@
                     </div>
                 </div>
             </div>  
-            <!-- <img alt="" class="loading" :src="imgUrl"> -->
-            <!-- 图表 -->
-            <div class="echart-box" :id="chartdates.id" v-show='!chartdates.isNull'>
-                
-            </div>
-            <div class="echart-center" v-show='chartdates.isNull'>暂无数据</div>
             
+            <!-- 图表 -->
+            <div class="echart-box" :id="chartdates.id" v-show='!chartdates.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
+            </div>
+            <div class="echart-center" v-show='chartdates.isNull&&chartLoading=="hide"'>暂无数据</div>
+            <img alt="" class="loading" :src="imgUrl" v-show="chartLoading=='show'">
         </div>
         <!-- <test v-bind:test-Val="val"></test> -->
     </div>
@@ -60,12 +59,15 @@ export default {
     name : 'overview-lineChart',
     data() {
         return {
-          imgUrl:'../assets/loading.png'
+          imgUrl:'../../static/img/loading.png'
         }
     },
     computed:{
       chartsData(){
           return this.$store.state.overview.chartsData;
+      },
+      chartLoading(){
+          return this.$store.state.overview.chartLoading;
       }
     },
     props:['chartdates'],
@@ -75,16 +77,17 @@ export default {
        // console.log(this.chartdates)
     },
     watch: {
-       chartsData(){ // chartdata 数据变化监听
-          // console.log(9999)
-          this.drawLine()
+       chartLoading(){
+        // console.log(11111)
+          if (this.chartLoading =="hide") {
+              this.drawLine()
+          }
        }
-
     },
 
     methods:{
         drawLine(){
-          // console.log(this.chartsData)
+          // console.log(this.chartLoading)
           var that = this;
             // console.log(this.chartdates.chartX)
             // 基于准备好的dom，初始化echarts实例
@@ -187,14 +190,39 @@ export default {
 
 <style scoped>
     .loading{
-        width: 200px;
-        height: 200px;
+        width: 50px;
+        height: 50px;
         position: absolute;
         left: 50%;
         top: 50%;
-        margin-left:-100px;
-        margin-top: -100px;
+        margin-left:-25px;
+        margin-top: -25px;
         z-index: 50;
+        -webkit-animation: load 2s infinite ease;
+        animation: load 2s infinite ease;
+    }
+    .chartShow{
+        opacity: 1 !important;
+    }
+    @-webkit-keyframes load {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
+    }
+    @keyframes load {
+        0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+        }
     }
     .main-item-box{
       border: 1px solid #dae2e5;
@@ -213,7 +241,7 @@ export default {
       width: 100%;
       background-color: #fff;
       padding: 10px 10px 0 15px;
-
+     
     }
 
 
@@ -319,6 +347,7 @@ export default {
 
     .echart-box{
       height: 183px;
+      opacity: 0;
       /*margin-top: -30px;*/
     }
 

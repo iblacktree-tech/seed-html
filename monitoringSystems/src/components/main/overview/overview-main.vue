@@ -198,15 +198,15 @@ export default {
         pageviews(){//页面浏览量
             var that = this
             let dataNow = this.chartsData.data1.data
-            console.log( this.chartsData)
+            // console.log( this.chartsData)
             let dataBefore = this.chartsData.data2.data
             let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
 
-            if (dataNow==null&&dataBefore==null) {
+            if (dataNow.length==0&&dataBefore.length==0) {
                 this.box[0].chartsdata.isNull=true //是否显示暂无数据
             }
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[0].chartsdata.dates = dataNow[dataNow.length-1].datadate
 
@@ -230,7 +230,7 @@ export default {
                 this.box[0].chartsdata.chartYNow = chartYNow
             }
             // 上周期
-            if (dataBefore!=null) {//有数据
+            if (dataBefore.length!=0) {//有数据
                 for (var i = 0; i < dataBefore.length; i++) {
                     chartYBefore.push(dataBefore[i].nb_pageviews);
                     if ('nb_pageviews' in dataBefore[i]) {
@@ -276,9 +276,9 @@ export default {
             let dataBefore = this.chartsData.data2.data
             let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
 
-            // console.log(this.chartsData.data1.data)
+            // console.log(this.chartsData)
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[1].chartsdata.dates = dataNow[dataNow.length-1].datadate
 
@@ -302,7 +302,7 @@ export default {
                 this.box[1].chartsdata.chartYNow = chartYNow
             }
             // 上周期
-            if (dataBefore!=null) {//有数据
+            if (dataBefore.length!=0) {//有数据
                 for (var i = 0; i < dataBefore.length; i++) {
                     chartYBefore.push(dataBefore[i].nb_visits);
                     // countsBefore += dataBefore[i].nb_visits
@@ -333,6 +333,9 @@ export default {
                 this.box[1].chartsdata.num =0;
                 this.box[1].chartsdata.riseOrFall ='上升';
             }
+            if (dataNow.length==0&&dataBefore.length==0) {
+                this.box[1].chartsdata.isNull=true //是否显示暂无数据
+            }
             // console.log(this.formatDate('2018-03-19'))
         },
         uniq_visitors(){//访问用户量趋势
@@ -343,7 +346,7 @@ export default {
 
             // console.log(this.chartsData.data1.data)
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[2].chartsdata.dates = dataNow[dataNow.length-1].datadate
 
@@ -367,7 +370,7 @@ export default {
                 this.box[2].chartsdata.chartYNow = chartYNow
             }
             // 上周期
-            if (dataBefore!=null) {//有数据
+            if (dataBefore.length!=0) {//有数据
                 for (var i = 0; i < dataBefore.length; i++) {
                     chartYBefore.push(dataBefore[i].nb_uniq_visitors);
                     // countsBefore += dataBefore[i].nb_uniq_visitors
@@ -398,6 +401,9 @@ export default {
                 this.box[2].chartsdata.num =0;
                 this.box[2].chartsdata.riseOrFall ='上升';
             }
+            if (dataNow.length==0&&dataBefore.length==0) {
+                this.box[2].chartsdata.isNull=true //是否显示暂无数据
+            }
         },
         pageOnces(){//每次访问页面浏览量趋势
             var that = this
@@ -407,7 +413,7 @@ export default {
 
             // console.log(this.chartsData.data1.data)
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[3].chartsdata.dates = dataNow[dataNow.length-1].datadate
 
@@ -433,7 +439,7 @@ export default {
                 this.box[3].chartsdata.chartYNow = chartYNow
             }
             // 上周期
-            if (dataBefore!=null) {//有数据
+            if (dataBefore.length!=0) {//有数据
                 for (var i = 0; i < dataBefore.length; i++) {
                   if ('nb_pageviews' in dataBefore[i]) {
                       dd = (parseInt(dataBefore[i].nb_pageviews)/parseInt(dataBefore[i].nb_visits)) +''
@@ -463,6 +469,9 @@ export default {
                 this.box[3].chartsdata.num =0;
                 this.box[3].chartsdata.riseOrFall ='上升';
             }
+            if (dataNow.length==0&&dataBefore.length==0) {
+                this.box[3].chartsdata.isNull=true //是否显示暂无数据
+            }
         },
         newVistor(){//新访问用户量趋势
             var that = this
@@ -472,7 +481,7 @@ export default {
 
             // console.log(this.chartsData.data1.data)
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[4].chartsdata.dates = dataNow[dataNow.length-1].datadate
 
@@ -496,7 +505,7 @@ export default {
                 this.box[4].chartsdata.chartYNow = chartYNow
             }
             // 上周期
-            if (dataBefore!=null) {//有数据
+            if (dataBefore.length!=0) {//有数据
                 for (var i = 0; i < dataBefore.length; i++) {
                     chartYBefore.push(dataBefore[i].nb_uniq_visitors_newcoming);
                     // countsBefore += dataBefore[i].nb_uniq_visitors_newcoming
@@ -526,6 +535,9 @@ export default {
                 this.box[4].chartsdata.num = 0;
                 this.box[4].chartsdata.riseOrFall ='上升';
             }
+            if (dataNow.length==0&&dataBefore.length==0) {
+                this.box[4].chartsdata.isNull=true //是否显示暂无数据
+            }
             // console.log(this.formatDate('2018-03-19'))
         },
         urlTop10(){//页面（URL）进入量前10名
@@ -535,7 +547,7 @@ export default {
             // console.log(dataNow)
             // console.log(this.chartsData.data1.data)
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[5].chartsdata.dates = dataNow[dataNow.length-1].datadate
                 for (var i = 0; i < dataNow.length; i++) {
@@ -559,7 +571,7 @@ export default {
             // console.log(dataNow)
             // console.log(this.chartsData.data1.data)
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[6].chartsdata.dates = dataNow[dataNow.length-1].datadate
                 for (var i = 0; i < dataNow.length; i++) {
@@ -582,7 +594,7 @@ export default {
             // console.log( this.chartsData)
             let chartName = [],chartValue = []
             
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[7].chartsdata.dates = dataNow[dataNow.length-1].datadate
 
@@ -601,12 +613,13 @@ export default {
         },
         refererlev1(){//广告来源访问用户量前10名
             var that = this
-            let dataNow = this.chartsData.data1.refererlev12
+            // let dataNow = this.chartsData.data1.refererlev12
+            let dataNow = []//暂时
             let chartX=[],chartY=[]
             // console.log(dataNow)
             // console.log(this.chartsData.data1.data)
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[8].chartsdata.dates = dataNow[dataNow.length-1].datadate
                 for (var i = 0; i < dataNow.length; i++) {
@@ -630,7 +643,7 @@ export default {
             // console.log(dataNow)
             // console.log(this.chartsData.data1.data)
             // 本周期
-            if (dataNow!=null) {//有数据
+            if (dataNow.length!=0) {//有数据
                 // 日期
                 this.box[9].chartsdata.dates = dataNow[dataNow.length-1].datadate
                 for (var i = 0; i < dataNow.length; i++) {

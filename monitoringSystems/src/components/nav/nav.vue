@@ -215,6 +215,26 @@ export default {
               this.$store.commit('overviewData',{
                   chartLoading : 'show'
               })
+              // 请求概览页图表数据
+              this.$http.post('/api/glreport/getReportBasicdata', {
+                 // params: {
+                     siteid: this.WebsiteManagement[index].siteid,//网站siteid
+                     querydate: this.chartTime,//查询日期范围
+                     period: 'day'//数据粒度, 最小是day
+                 // }
+              },{
+                  credentials: true,
+                  emulateJSON: true
+              }).then(function(res) {
+                 // console.log(res.body) 
+                 // 存数据
+                 this.$store.commit('overviewData',{
+                     chartsData : res.body
+                 })
+              },function(err){
+                  console.log(err.status)
+              });
+              
             }
           }
           

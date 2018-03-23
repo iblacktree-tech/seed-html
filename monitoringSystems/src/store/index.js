@@ -4,13 +4,14 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 let store = new Vuex.Store({
 	state:{
-		itemIndex:'',//导航条默认active 下标
+		itemIndex: ' ',//导航条默认active 下标
 		overview:{//应用概览
 			modalIsShow: "off", //日期弹框显示与否 控制
 			modalDateChose: "昨天", //弹框选择后，显示在右侧的日期
 			chartsData:[], //概览页 图表数据
-			chartTime:'', //图表选择日期
+			chartTime:'', //图表选择日期 用于overview 监听日期变化
 			chartLoading: 'show', //图表loading 是否显示
+			charts:[],//用于存放echarts 对象， 用于window.onresize
 		},
 		webManages:{//网站管理
 			pageData:[],//页面数据
@@ -48,7 +49,7 @@ let store = new Vuex.Store({
 			],
 			editOrAdd: 'edit',//添加还是编辑
 			copydata:'',//部署代码
-			webId:0 //当前网站数据请求的id
+			webId:0 //当前网站数据请求的id 是否发生改变，用于overview监听
 		},
         userSettings:{//账户管理
         	pageData:[], //账户管理页数据更新
@@ -79,14 +80,15 @@ let store = new Vuex.Store({
 	            }
 	        ],
 	        editOrAdd:"add"// 编辑还是添加依据
-        }
+        },
+		analysis:{//应用分析
+			itemIndex: '', //项目下标
+		},
 
 		
 	},
 	mutations:{
-		setHomeMsg(state,data){
-			state.homeMsg=data.msg;
-		},
+
 		// 导航条默认active 切换
 		itemIndex(state,data){
 			// console.log(data)
@@ -118,8 +120,11 @@ let store = new Vuex.Store({
 			if (data.chartLoading) {
 				state.overview.chartLoading=data.chartLoading;
 			}
-
+			if (data.charts) {
+				state.overview.charts=data.charts;
+			}
 		},
+		// 网站管理
 		webManagesData(state,data){
 			// 网站管理页数据更新
 			if (data.pageData) {
@@ -138,6 +143,7 @@ let store = new Vuex.Store({
 				state.webManages.webId=data.webId;
 			}
 		},
+		// 账户管理
 		userSettingsData(state,data){
 			// 账户管理页数据更新
 			if (data.pageData) {
@@ -149,7 +155,15 @@ let store = new Vuex.Store({
 			if (data.editOrAdd) {
 				state.userSettings.editOrAdd=data.editOrAdd;
 			}
-		}
+		},
+		// 分析
+		analysisData(state,data){
+			// 分析模块，各模块导航切换
+			if (data.itemIndex) {
+				state.analysis.itemIndex=data.itemIndex;
+			}
+			
+		},
 	}
 })
 

@@ -44,7 +44,7 @@
             </div>  
             
             <!-- 图表 -->
-            <div class="echart-box" :id="chartdates.id" v-show='!chartdates.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
+            <div class="echart-box" :id="chartdates.id" :style="{width:this.chartWidth}" v-show='!chartdates.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
             </div>
             <div class="echart-center" v-show='chartdates.isNull&&chartLoading=="hide"'>暂无数据</div>
             <img alt="" class="loading" :src="imgUrl" v-show="chartLoading=='show'">
@@ -68,17 +68,20 @@ export default {
       },
       chartLoading(){
           return this.$store.state.overview.chartLoading;
+      },
+      charts(){
+          return this.$store.state.overview.charts;
       }
     },
     props:['chartdates'],
     // props:{chartdates:'chartdates'},
     mounted(){
-       // this.drawLine();
-       // console.log(this.chartdates)
+        // this.chartWidth()
     },
     watch: {
        chartLoading(){
-        // console.log(11111)
+
+        // console.log(this.chartLoading)
           if (this.chartLoading =="hide") {
               this.drawLine()
           }
@@ -86,13 +89,22 @@ export default {
     },
 
     methods:{
+        chartWidth(){
+            this.chartWidth = $("#"+this.chartdates.id).siblings('.chart-duibi-info').width()
+            // if (this.charts.length!=0) {
+            //     this.charts[this.chartdates.id].init()  
+            // }
+            this.drawLine()
+            // console.log(this.chartWidth)
+        },
         drawLine(){
           // console.log(this.chartLoading)
           var that = this;
             // console.log(this.chartdates.chartX)
             // 基于准备好的dom，初始化echarts实例
             if (this.chartdates.id==''||this.chartdates.id==null) return;
-            let myChart = this.$echarts.init(document.getElementById(that.chartdates.id))
+
+            var myChart = this.$echarts.init(document.getElementById(that.chartdates.id))
             // console.log(myChart)
             // 绘制图表
             myChart.setOption({
@@ -172,10 +184,12 @@ export default {
                     data:  this.chartdates.chartYBefore
                 }]
             },true);
-            // echarts 宽度 自适应
-            window.onresize = function(){
-                myChart.resize()
-            }
+            // 用于宽度自适应
+            this.charts.push(myChart);
+
+            this.$store.commit('overviewData',{
+                charts : this.charts
+            })
             // main-item-box 提示hover 显示
             $('.main-box-container').find('[data-toggle="tooltip"]').tooltip()
         }
@@ -347,6 +361,7 @@ export default {
 
     .echart-box{
       height: 183px;
+      width: 100%;
       opacity: 0;
       /*margin-top: -30px;*/
     }

@@ -20,6 +20,7 @@ export default {
     name : 'overview-main',
     data() {
         return {
+            chartsSum: this.overData,
             box:[
                 {
                     c:'col-xs-6',
@@ -30,11 +31,12 @@ export default {
                         counts :0,//数量
                         num : 0,//上升或者下降数量
                         riseOrFall:"上升",// 上升或者下降
-                        id : "echart-box1",
+                        id : "1",
                         chartX:[],
                         chartYNow:[],
                         chartYBefore:[],
-                        isNull: false //是否显示暂无数据
+                        isNull: false, //是否显示暂无数据
+                        chartWidth: 0//宽度
                     }
                 },
                 {
@@ -46,11 +48,12 @@ export default {
                         counts :0,//数量
                         num : 0,//上升或者下降数量
                         riseOrFall:"上升",// 上升或者下降
-                        id : "echart-box2",
+                        id : "2",
                         chartX:[],
                         chartYNow:[],
                         chartYBefore:[],
-                        isNull: false //是否显示暂无数据
+                        isNull: false, //是否显示暂无数据
+                        chartWidth: 0//宽度
                     }
                 },
                 {
@@ -62,11 +65,12 @@ export default {
                         counts :0,//数量
                         num : 0,//上升或者下降数量
                         riseOrFall:"上升",// 上升或者下降
-                        id : "echart-box3",
+                        id : "3",
                         chartX:[],
                         chartYNow:[],
                         chartYBefore:[],
-                        isNull: false //是否显示暂无数据
+                        isNull: false, //是否显示暂无数据
+                        chartWidth: 0//宽度
                     }
                 },
                 {
@@ -78,11 +82,12 @@ export default {
                         counts :0,//数量
                         num : 0,//上升或者下降数量
                         riseOrFall:"上升",// 上升或者下降
-                        id : "echart-box4",
+                        id : "4",
                         chartX:[],
                         chartYNow:[],
                         chartYBefore:[],
-                        isNull: false //是否显示暂无数据
+                        isNull: false, //是否显示暂无数据
+                        chartWidth: 0//宽度
                     }
                 },
                 {
@@ -94,11 +99,12 @@ export default {
                       counts :0,//数量
                       num : 0,//上升或者下降数量
                       riseOrFall:"上升",// 上升或者下降
-                      id : "echart-box5",
+                      id : "5",
                       chartX:[],
                       chartYNow:[],
                       chartYBefore:[],
-                      isNull: false //是否显示暂无数据
+                      isNull: false, //是否显示暂无数据
+                      chartWidth: 0//宽度
                     }
                 },
                 {
@@ -107,11 +113,12 @@ export default {
                         title: "页面（URL）进入量前10名",//标题
                         des: "页面（URL）进入量前10名",//描述
                         dates:"",//日期
-                        id : "echart-box6",
+                        id : "6",
                         chartX:[],
                         chartY:[],
                         isOnlyOne:false, //是否只有一组数据
-                        isNull: false //是否显示暂无数据
+                        isNull: false, //是否显示暂无数据
+                        chartWidth: 0//宽度
                     }
                 },
                 {
@@ -120,10 +127,11 @@ export default {
                       title: "站外搜索搜索词进入量前10名",//标题
                       des: "站外搜索搜索词进入量前10名",//描述
                       dates:"",//日期
-                      id : "echart-box7",
+                      id : "7",
                       chartX:[],
                       chartY:[],
-                      isNull: false //是否显示暂无数据
+                      isNull: false, //是否显示暂无数据
+                      chartWidth: 0//宽度
                     }
                 },
                 {
@@ -132,10 +140,11 @@ export default {
                       title: "访问用户一级访问来源",//标题
                       des: "访问用户一级访问来源",//描述
                       dates:"",//日期
-                      id : "echart-box8",
+                      id : "8",
                       chartName:[],
                       chartValue:[],
-                      isNull: false //是否显示暂无数据
+                      isNull: false, //是否显示暂无数据
+                      chartWidth: 0//宽度
                     }
                 },
                 {
@@ -144,10 +153,11 @@ export default {
                       title: "广告来源访问用户量前10名",//标题
                       des: "广告来源访问用户量前10名",//描述
                       dates:"",//日期
-                      id : "echart-box9",
+                      id : "9",
                       chartX:[],
                       chartY:[],
-                      isNull: false //是否显示暂无数据
+                      isNull: false, //是否显示暂无数据
+                      chartWidth: 0//宽度
                     }
                 },
                 {
@@ -156,10 +166,11 @@ export default {
                       title: "城市名称访问用户量前10名",//标题
                       des: "城市名称访问用户量前10名",//描述
                       dates:"",//日期
-                      id : "echart-box10",
+                      id : "10",
                       chartX:[],
                       chartY:[],
-                      isNull: false //是否显示暂无数据
+                      isNull: false, //是否显示暂无数据
+                      chartWidth: 0//宽度
                     }
                 }
             ],
@@ -170,17 +181,25 @@ export default {
        // this.a() 
     },
     mounted(){
-       
+        
     },
     computed:{
         chartsData(){
             return this.$store.state.overview.chartsData;
+        },
+        charts(){
+            return this.$store.state.overview.charts;
         }
     },
     watch: {
        chartsData(){ // chartdata 数据变化监听
+        // console.log(111199999)
+
            // console.log(this.chartsData) 
-           
+           for (var i = 0; i < this.box.length; i++) {
+             this.box[i].chartsdata.isNull = false
+           }
+
            this.visits()
            this.uniq_visitors()
            this.pageOnces()
@@ -190,7 +209,6 @@ export default {
            this.firstSource()
            this.refererlev1()
            this.citytop10()
-
            this.pageviews()
        }
     },
@@ -201,8 +219,9 @@ export default {
             // console.log( this.chartsData)
             let dataBefore = this.chartsData.data2.data
             let counts = 0,countsNow = 0,countsBefore = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
-
+            // console.log( dataBefore)
             if (dataNow.length==0&&dataBefore.length==0) {
+              // console.log(2222)
                 this.box[0].chartsdata.isNull=true //是否显示暂无数据
             }
             // 本周期

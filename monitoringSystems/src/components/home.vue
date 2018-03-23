@@ -18,9 +18,25 @@ export default {
     computed:{
         ovShow(){
             return this.$store.state.overview.modalIsShow;
+        },
+        charts(){
+            return this.$store.state.overview.charts;
         }
     },
     created(){
+    },
+    mounted() {
+      let that =this;
+        window.onresize = function temp() {
+            if (that.charts.length!=0) {
+                // setTimeout(()=>{
+                    for (var i = 0; i < that.charts.length; i++) {
+                      that.charts[i].resize();
+                    }
+                // },100)
+                
+            }
+        };
     },
     methods:{
       ovModalShow(){

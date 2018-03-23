@@ -31,6 +31,9 @@ export default {
     computed:{
         chartLoading(){
             return this.$store.state.overview.chartLoading;
+        },
+        charts(){
+            return this.$store.state.overview.charts;
         }
     },
     props:['chartdates'],
@@ -54,7 +57,7 @@ export default {
         drawLine(){
             var that =this;
             // // 基于准备好的dom，初始化echarts实例
-            let myChart = this.$echarts.init(document.getElementById(this.chartdates.id))
+            var myChart = this.$echarts.init(document.getElementById(this.chartdates.id))
             // 总访问用户量
             var  sum = 0;
 
@@ -120,10 +123,12 @@ export default {
             $('<p class="echart-textP2_b" style="color: #333;font-size: 22px;">'+sum+'</p>').appendTo(textBox);
             textBox.appendTo('#' +this.chartdates.id)
             
-            // echarts 宽度 自适应
-            window.onresize = function(){
-                myChart.resize()
-            }
+            // 用于宽度自适应
+            this.charts.push(myChart);
+            
+            this.$store.commit('overviewData',{
+                charts : this.charts
+            })
             // main-item-box 提示hover 显示
             $('.main-box-container').find('[data-toggle="tooltip"]').tooltip()
         }

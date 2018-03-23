@@ -1,12 +1,12 @@
 <template>
-    <div class="pageMain">
+    <div class="AdTracking">
         
     </div>
 </template>
 
 <script>
 export default {
-    name : 'pageMain',
+    name : 'AdTracking',
     data() {
         return {
             msg: 'Welcome to Your Vue.js App'

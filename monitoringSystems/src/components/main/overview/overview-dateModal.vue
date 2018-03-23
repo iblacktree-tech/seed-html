@@ -34,14 +34,14 @@ export default {
         return {
             modalDateItemActive:1,
             dateItems:[
-                {itemName :"今天", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."}},
-                {itemName :"昨天", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."}},
-                {itemName :"本周", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."}},
-                {itemName :"上周", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."}},
-                {itemName :"本月", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."}},
-                {itemName :"上月", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."}},
-                {itemName :"今年", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."}},
-                {itemName :"去年", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."}}
+                {itemName :"今天", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."},period:"day"},
+                {itemName :"昨天", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."},period:"day"},
+                {itemName :"本周", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."},period:"day"},
+                {itemName :"上周", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."},period:"day"},
+                {itemName :"本月", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."},period:"week"},
+                {itemName :"上月", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."},period:"week"},
+                {itemName :"今年", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."},period:"month"},
+                {itemName :"去年", thisCycle:{from: "2018-03-16",to:"2018-03-16"},week:{from: "Mon.",to:"Sun."},period:"month"}
             ]
 
         }
@@ -72,29 +72,17 @@ export default {
              this.modalDateItemActive = index;
              // this.dataShow();
 
+            
+             
+            let days = this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to
+            let period = this.dateItems[index].period
+            // 会话存贮
+            sessionStorage.setItem('days',days)
+            sessionStorage.setItem('period',period)
             // 请求数据
             this.$store.commit('overviewData',{
-                chartTime : this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to
+                chartTime : days
             })
-            // 请求后台chart数据
-            this.$http.post('/api/glreport/getReportBasicdata', {
-               // params: {
-                   siteid: this.webId,//网站siteid
-                   querydate: this.dateItems[index].thisCycle.from +","+this.dateItems[index].thisCycle.to,//查询日期范围
-                   segment: '',//拼写过滤条件
-                   period: 'day'//数据粒度, 最小是day
-               // }
-            },{
-                credentials: true,
-                emulateJSON: true
-            }).then(function(res) {
-               // console.log(res.body.data)
-               this.$store.commit('overviewData',{
-                   chartsData : res.body
-               })
-            },function(err){
-                console.log(err.status)
-            }); 
         },
         //获取本周，上周等开始结束日期函数
         dates(){

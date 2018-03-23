@@ -20,7 +20,7 @@
                         <li v-for="(pItem, pIndex) in navLeftList" :class="{'active open':itemIndex==(pIndex+1)}" @click="itemChange(pIndex+1)">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{pItem.title}} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li v-for="(cItem, cIndex) in pItem.children">
+                                <li v-for="(cItem, cIndex) in pItem.children" @click="cItemChange(cItem.text,pIndex)">
                                     <router-link :to="cItem.routerLinks">
                                         {{cItem.text}}
                                     </router-link>
@@ -82,21 +82,21 @@ export default {
                 {   
                     title: '应用分析',
                     children:[//应用分析
-                        {"routerLinks":'/home/fenxi',"text":'渠道与来源分析'},
-                        {"routerLinks":'/home/fenxi',"text":'着陆页分析'},
-                        {"routerLinks":'/home/fenxi',"text":'用户留存分析'},
-                        {"routerLinks":'/home/fenxi',"text":'用户忠诚度分析'},
-                        {"routerLinks":'/home/fenxi',"text":'用户标签管理'},
-                        {"routerLinks":'/home/fenxi',"text":'用户画像'}
+                        {"routerLinks":'/home/analysis',"text":'渠道与来源分析'},
+                        {"routerLinks":'/home/analysis',"text":'着陆页分析'},
+                        {"routerLinks":'/home/analysis',"text":'用户留存分析'},
+                        {"routerLinks":'/home/analysis',"text":'用户忠诚度分析'},
+                        {"routerLinks":'/home/analysis',"text":'用户标签管理'},
+                        {"routerLinks":'/home/analysis',"text":'用户画像'}
                     ]
                 },
                 {
                     title: '广告追踪',
                     children:[//广告追踪
-                        {"routerLinks":'/home/fenxi',"text":'广告活动管理'},
-                        {"routerLinks":'/home/fenxi',"text":'广告实时监测'},
-                        {"routerLinks":'/home/fenxi',"text":'广告跳出页分析'},
-                        {"routerLinks":'/home/fenxi',"text":'转化漏斗分析'}
+                        {"routerLinks":'/home/AdTracking',"text":'广告活动管理'},
+                        {"routerLinks":'/home/AdTracking',"text":'广告实时监测'},
+                        {"routerLinks":'/home/AdTracking',"text":'广告跳出页分析'},
+                        {"routerLinks":'/home/AdTracking',"text":'转化漏斗分析'}
                     ]
                 },
             ],
@@ -104,138 +104,91 @@ export default {
             ],
             // 网站显示
             WebManageShow:"网站应用管理",
-            userName:''
+            userName:'',//当前用户登录名称
+            itemIndex:0//项目下标
         }
     },
     created(){
         // this.getWebsiteData()
     },
     mounted(){
-       this.getWebsiteData()
+       this.init()
     },
     computed:{
         itemIndex(){
             return this.$store.state.itemIndex;
-        },
-        chartTime(){
-            return this.$store.state.overview.chartTime;
         }
 
     },
     methods:{
+        init(){
+            // 下标
+            this.itemIndex = sessionStorage.getItem('navItemIndex')
+            // console.log(this.itemIndex)
+            // 当前账户名称
+            this.userName = sessionStorage.getItem('userName')
+            
+            let webList = JSON.parse(sessionStorage.getItem('webList'))
+            // 判断是否已经写入网站
+            // 没有
+            if (webList=='' || webList.length==0) {
+                this.WebsiteManagement = '';
+                this.WebManageShow = '网站应用管理'
+            }else{
+              // 有
+              this.WebsiteManagement = webList
+              // console.log(webList)
+              let siteId = sessionStorage.getItem('siteId')
+              for (var i = 0; i < webList.length; i++) {
+                  if (webList[i].siteid == siteId) {
+                      this.WebManageShow = webList[i].appname; 
+                  }
+              }
+            }
+        },
         // 导航项目切换
         itemChange(index){
-            // console.log(index)
-            this.$store.commit('itemIndex',{
-                itemIndex:index
-            })
+    
+            this.itemIndex = index;
+            sessionStorage.setItem('navItemIndex',index);
+
+            if (index==0) {
+              this.$store.commit('overviewData',{
+                  chartLoading:'show'
+              })
+            }
         },
-        // 获取后台数据
-        getWebsiteData(){
-            // 网站管理数据
-            this.$http.get('/api/gl/getuserapp', {
+        // 分析与广告追踪里面的子item 判断
+        cItemChange(cItem,pIndex){
 
-            },{
-                credentials: true,
-                emulateJSON: true
-            }).then(function(data) {
-                // console.log(data.body)
-                // 判断是否已经写入网站
-                // 没有
-                if (data.body.data.length=='' || data.body.data.length==0) {
-                  this.WebsiteManagement = '';
-                  this.WebManageShow = '网站应用管理'
-
-                }else{
-                  // 有
-                  this.WebsiteManagement = data.body.data;
-                  this.WebManageShow = data.body.data[0].chargename; 
-                  // console.log(this.WebsiteManagement)
-                  this.$store.commit('webManagesData',{
-                      webId:this.WebsiteManagement[0].siteid
-                  })
-                  // 请求概览页图表数据
-                  this.$http.post('/api/glreport/getReportBasicdata', {
-                     // params: {
-                         siteid: this.WebsiteManagement[0].siteid,//网站siteid
-                         querydate: this.chartTime,//查询日期范围
-                         period: 'day'//数据粒度, 最小是day
-                     // }
-                  },{
-                      credentials: true,
-                      emulateJSON: true
-                  }).then(function(res) {
-                     // console.log(res.body) 
-                     // 存数据
-                     this.$store.commit('overviewData',{
-                         chartsData : res.body
-                     })
-                  },function(err){
-                      console.log(err.status)
-                  });
-                }
-   
-            },function(err){
-                // console.log(err.status)
-                if (err.status ==500) {
-                    if (confirm('登录超时，请重新登录！')==true){ 
-                        this.$router.push({path:'/login'})  
-                    }else{ 
-
-                    } 
-                }
-                console.log(err.status)
-            });
-            // 获取当前登录账号账号名
-            this.$http.get('/api/gl/getuser', {
-
-            },{
-                credentials: true,
-                emulateJSON: true
-            }).then(function(data) {
-                // console.log(data.body.data.username)
-                this.userName = data.body.data.username
-            
-            },function(err){
-                console.log(err.status)
-            });
+            if (pIndex=="0") { // 分析
+                // console.log(pIndex)
+                // console.log(cItem)
+                this.$store.commit('analysisData',{
+                    itemIndex:cItem
+                })
+            }
         },
         // 更改网站显示函数
         WebManageShowChange(data,index){
           this.WebManageShow = data;
+          // console.log(index)
           if (data!='网站应用管理') {
+            // 更新 网站数据请求id
+            let siteid =this.WebsiteManagement[index].siteid
+            // console.log(this.WebsiteManagement[index].siteid)
+            // console.log(this.WebsiteManagement)
+            sessionStorage.setItem('siteId',siteid)
+            // 用于 图表loading隐藏 图表显示
+            this.$store.commit('overviewData',{
+                chartLoading : 'show'
+            }) 
+            this.$store.commit('webManagesData',{
+                webId : siteid
+            })
+          
             // 切换 导航条 active 显示
             this.itemChange(0); 
-            // 更新 网站数据请求id
-            if (index!='') {
-              this.$store.commit('webManagesData',{
-                  webId:this.WebsiteManagement[index].siteid
-              })
-              // 用于 图表loading隐藏 图表显示
-              this.$store.commit('overviewData',{
-                  chartLoading : 'show'
-              })
-              // 请求概览页图表数据
-              this.$http.post('/api/glreport/getReportBasicdata', {
-                 // params: {
-                     siteid: this.WebsiteManagement[index].siteid,//网站siteid
-                     querydate: this.chartTime,//查询日期范围
-                     period: 'day'//数据粒度, 最小是day
-                 // }
-              },{
-                  credentials: true,
-                  emulateJSON: true
-              }).then(function(res) {
-                 // console.log(res.body) 
-                 // 存数据
-                 this.$store.commit('overviewData',{
-                     chartsData : res.body
-                 })
-              },function(err){
-                  console.log(err.status)
-              });
-              
-            }
           }
           
         },
@@ -250,7 +203,14 @@ export default {
            }).then(function(data) {
               console.log('logout') 
            },function(err){
-               console.log(err.status)
+              if (err.status ==500) {
+                  if (confirm('登录超时，请重新登录！')==true){ 
+                      this.$router.push({path:'/login'})  
+                  }else{ 
+
+                  } 
+              }
+              console.log(err.status)
            });
         }
 

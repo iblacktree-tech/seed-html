@@ -42,15 +42,20 @@ export default {
     name : 'login',
     data() {
         return {
-           username:'',
-           password:''
+           username:'test01',
+           password:'test01'
         }
     },
     computed:{
-
+        ajaxCanShu(){
+            return this.$store.state.ajaxCanShu;
+        }
     },
     created(){
       // this.ajax()
+    },
+    mounted(){
+        this.getDay();  
     },
     methods:{
         loginIn(){
@@ -67,7 +72,8 @@ export default {
                 if(resp.body.logon){
                   alert('登录成功')
                   // console.log('登录成功')
-                  this.$router.push('/home/overview');
+                  this.getCanshu()
+                  
                 }else{
                   alert('账号或密码错误，请重试')
                   // console.log('账号或密码错误，请重试')
@@ -75,11 +81,68 @@ export default {
             },function(resp){
                 alert('登录失败，请重试')
             }); 
+        },
+        // 获取昨天日期
+        getDay() {
+            var now = new Date()
+            var date = new Date(now.setDate(now.getDate() - 1));
+            var myyear = date.getFullYear();
+            var mymonth = date.getMonth() + 1;
+            var myweekday = date.getDate();
+            if (mymonth < 10) {
+                mymonth = "0" + mymonth;
+            }
+            if (myweekday < 10) {
+                myweekday = "0" + myweekday;
+            }
+            let days = myyear + "-" + mymonth + "-" + myweekday
+            sessionStorage.setItem('days',days);
+        },
+        //获取页面参数 siteid 及网站列表数据 当前登录的用户名称
+        getCanshu(){  
+            this.$http.get('/api/gl/getuserapp', {
+            },{
+                credentials: true,
+                emulateJSON: true
+            }).then(function(data){  
+                // console.log(data.body.data)
+                let siteid =data.body.data[0].siteid
+                // console.log(siteid)
+                // 会话存贮
+                sessionStorage.setItem('siteId',siteid)
+                sessionStorage.setItem('period','day')
+                // 网站列表数据
+                sessionStorage.setItem('webList',JSON.stringify(data.body.data))
+                // console.log(this.ajaxCanShu)
+
+                // 获取当前登录账号账号名
+                this.$http.get('/api/gl/getuser', {
+
+                },{
+                    credentials: true,
+                    emulateJSON: true
+                }).then(function(data) {
+                    // 当前登录的用户名称
+                    sessionStorage.setItem('userName',data.body.data.username);
+                    // 默认 概览显示 nav 下标
+                    sessionStorage.setItem('navItemIndex',0)
+                    // 页面转跳到home
+                    this.$router.push('/home/overview');
+
+                },function(err){
+                    console.log(err.status)
+                });
+
+                
+            },function(err){
+                console.log(err.status)
+            });
+
+            // if (true) {}
         }
     },
     components:{
-        // pageNav : pageNav,
-        // pageMain : pageMain,
+
     }
 }
 </script>

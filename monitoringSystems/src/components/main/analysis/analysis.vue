@@ -1,35 +1,13 @@
 <template>
     <!-- 分析 -->
-    <div class="pageMain">
-        <!-- 顶部 -->
-        <div class="top-box">
-            <!-- 右侧 日期btn-->
-            <button type="button" class="fenxi-btn pull-right" >
-                <i class="anticon glyphicon glyphicon-list-alt"></i>
-                <span>昨天</span>
-            </button>
-            <!-- 标题 -->
-            <div class="itemTitleBox">
-                <h2 class="itemTitle">渠道分析</h2>
-                <button type="button" class="btn btn-default btn-xs pull-left" aria-label="Left Align">
-                    昨天
-                    <span class="glyphicon glyphicon-remove " aria-hidden="true"></span>
-                </button>
-            </div>
-        </div>
-        <!-- 主体模块 -->
-        <div class="fenxi-main">
-            <div>
-                <h3 class="m-tittle">渠道分析</h3>
-                <p class="m-tittle-des">
-                    针对web端，包含“全渠道概况”，“各类渠道流量分布及趋势”，“各明细渠道深度评估”三个模块。其中，“各明细渠道深度评估”从获客能力、拉新能力、获客质量三个角度，准确甄别优劣渠道，帮助您提升渠道投放ROI
-                </p>
-            </div>
-            
-
-        </div>
-
-
+    <div class="analysis">
+        <!-- 渠道与来源 -->
+        <channelsAndSources v-if="itemindex==1"></channelsAndSources>
+        <!-- 落地页 -->
+        <landingPage v-else-if="itemindex==2"></landingPage>
+        <!-- 用户留存 -->
+        <userRetention v-else-if="itemindex==3"></userRetention>
+        
 
 
 
@@ -38,11 +16,14 @@
 </template>
 
 <script>
+import channelsAndSources from '@/components/main/analysis/channelsAndSources'
+import landingPage from '@/components/main/analysis/landingPage'
+import userRetention from '@/components/main/analysis/userRetention'
 export default {
     name : 'analysis',
     data() {
         return {
-
+            itemindex : ''
         }
     },
     computed:{
@@ -51,7 +32,7 @@ export default {
         },
     },
     mounted(){
-        this.a();
+        this.init();
     },
     watch:{
         itemIndex(){
@@ -59,116 +40,26 @@ export default {
         }
     },
     methods:{
+        init(){
+            this.itemindex = this.$route.params.id;
+        },
         a(){
+            // 下标
+            // this.itemindex = sessionStorage.getItem('analysisIndex')
+            this.itemindex = this.$route.params.id;
             console.log(this.itemIndex)
+            console.log("ccccc")
         }
+    },
+    components:{
+        channelsAndSources:channelsAndSources,
+        landingPage:landingPage,
+        userRetention:userRetention,
+
     }
 }
 </script>
 
 <style scoped>
-    /*顶部*/
-    .top-box{
-        width: 100%;
-        padding:10px 20px;
-        box-sizing: border-box;
-    }
-    .fenxi-btn{
-        background-color: rgb(255, 255, 255);
-        -webkit-appearance: button;
-        vertical-align: middle;
-        padding: 6px 12px;
-        line-height: 1.5;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        display: inline-block;
-        margin-bottom: 0;
-        font-weight: 500;
-        text-align: center;
-        -ms-touch-action: manipulation;
-        touch-action: manipulation;
-        cursor: pointer;
-        background-image: none;
-        border: 1px solid transparent;
-        white-space: nowrap;
-        line-height: 1.15;
-        padding: 0 15px;
-        font-size: 12px;
-        border-radius: 4px;
-        height: 28px;
-        user-select: none;
-        transition: all .3s cubic-bezier(.645,.045,.355,1);
-        position: relative;
-        color: rgba(0,0,0,.65);
-        background-color: #fff;
-        border-color: #d9d9d9;
-    }
-    .fenxi-btn .anticon {
-        transition: margin-left .3s cubic-bezier(.645,.045,.355,1);
-    }
-
-    .fenxi-btn>.anticon {
-        line-height: 1;
-    }
-
-    .fenxi-btn>i, .top-choosedate-btn>span {
-        pointer-events: none;
-    }
-    .anticon {
-        display: inline-block;
-        font-style: normal;
-        vertical-align: baseline;
-        text-align: center;
-        text-transform: none;
-        line-height: 1;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
-    .itemTitleBox{
-        position: absolute;
-        left: 20px;
-        top: 80px;
-    }
-    .itemTitle{
-        font-size: 16px;
-        font-weight: 700;
-        color: #333;
-        text-indent: 5px;
-    }
-    .itemTitleBox button{
-        background-color: #ccc;
-        color:#fff;
-        font-size: 12px;
-    }
-    /*主体模块*/
-    .fenxi-main{
-        width: 100%;
-        text-align: left;
-        margin-top: 50px;
-        padding:10px 25px;
-        box-sizing: border-box;
-        overflow-x: hidden;
-    }
-    .m-tittle{
-        font-size: 14px;
-        font-weight: 500;
-        color: #000;
-        padding-left: 15px;
-        box-sizing: border-box;
-    }
-    .m-tittle-des{
-        width: 120%;
-        font-size: 12px;
-        padding-left: 15px;
-        box-sizing: border-box;
-        /*transform: scale(0.8);*/
-        -webkit-transform-origin-x: 0;   
-        -webkit-transform: scale(0.9);   
-        -webkit-transform: scale(0.9);
-        font-size: 11px;
-        color: #999;
-    }
+    
 </style>

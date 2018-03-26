@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 let store = new Vuex.Store({
 	state:{
-		itemIndex: ' ',//导航条默认active 下标
+		itemIndex: 0,//导航条默认active 下标
 		overview:{//应用概览
 			modalIsShow: "off", //日期弹框显示与否 控制
 			modalDateChose: "昨天", //弹框选择后，显示在右侧的日期
@@ -83,6 +83,8 @@ let store = new Vuex.Store({
         },
 		analysis:{//应用分析
 			itemIndex: '', //项目下标
+			chartLoading: 'hide', //图表loading 是否显示
+			charts:[],//用于存放echarts 对象， 用于window.onresize
 		},
 
 		
@@ -162,7 +164,13 @@ let store = new Vuex.Store({
 			if (data.itemIndex) {
 				state.analysis.itemIndex=data.itemIndex;
 			}
-			
+			// 分析模块，各模块导航切换
+			if (data.chartLoading) {
+				state.analysis.chartLoading=data.chartLoading;
+			}
+			if (data.charts) {
+				state.analysis.charts=data.charts;
+			}
 		},
 	}
 })

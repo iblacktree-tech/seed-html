@@ -24,7 +24,7 @@ let routers = new Router({
 	      path: '/home',
 	      component: home,
 	      children:[
-	            { path: '/home/analysis', component: analysis},
+	            { path: '/home/analysis/:id', component: analysis},
 	            { path: '/home/overview', component: overview},
 			    {path: '/home/webManage',component: webManage},
 			    {path: '/home/userSettings',component: userSettings},

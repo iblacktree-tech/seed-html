@@ -139,7 +139,7 @@ export default {
                 credentials: true,
                 emulateJSON: true
             }).then(function(data) {
-                console.log(data.body)
+                // console.log(data.body)
                 // 更改后台数据
                 this.$store.commit('userSettingsData',{
                     pageData : data.body.data
@@ -168,7 +168,7 @@ export default {
                 credentials: true,
                 emulateJSON: true
             }).then(function(data) {
-                console.log(data.body.data)
+                // console.log(data.body.data)
                 // 更改后台数据
                 this.$store.commit('userSettingsData',{
                     pageData : data.body.data

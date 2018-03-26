@@ -20,7 +20,7 @@
                         <li v-for="(pItem, pIndex) in navLeftList" :class="{'active open':itemIndex==(pIndex+1)}" @click="itemChange(pIndex+1)">
                             <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{pItem.title}} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li v-for="(cItem, cIndex) in pItem.children" @click="cItemChange(cItem.text,pIndex)">
+                                <li v-for="(cItem, cIndex) in pItem.children" @click="cIndexChange(cIndex,pIndex)">
                                     <router-link :to="cItem.routerLinks">
                                         {{cItem.text}}
                                     </router-link>
@@ -82,12 +82,12 @@ export default {
                 {   
                     title: '应用分析',
                     children:[//应用分析
-                        {"routerLinks":'/home/analysis',"text":'渠道与来源分析'},
-                        {"routerLinks":'/home/analysis',"text":'着陆页分析'},
-                        {"routerLinks":'/home/analysis',"text":'用户留存分析'},
-                        {"routerLinks":'/home/analysis',"text":'用户忠诚度分析'},
-                        {"routerLinks":'/home/analysis',"text":'用户标签管理'},
-                        {"routerLinks":'/home/analysis',"text":'用户画像'}
+                        {"routerLinks":`/home/analysis/${1}`,"text":'渠道与来源分析'},
+                        {"routerLinks":`/home/analysis/${2}`,"text":'着陆页分析'},
+                        {"routerLinks":`/home/analysis/${3}`,"text":'用户留存分析'},
+                        {"routerLinks":`/home/analysis/${4}`,"text":'用户忠诚度分析'},
+                        {"routerLinks":`/home/analysis/${5}`,"text":'用户标签管理'},
+                        {"routerLinks":`/home/analysis/${6}`,"text":'用户画像'}
                     ]
                 },
                 {
@@ -115,9 +115,6 @@ export default {
        this.init()
     },
     computed:{
-        itemIndex(){
-            return this.$store.state.itemIndex;
-        }
 
     },
     methods:{
@@ -158,15 +155,15 @@ export default {
               })
             }
         },
-        // 分析与广告追踪里面的子item 判断
-        cItemChange(cItem,pIndex){
-
-            if (pIndex=="0") { // 分析
-                // console.log(pIndex)
-                // console.log(cItem)
+        cIndexChange(cIndex,pIndex){
+            // console.log(9999)
+            // console.log(pIndex)
+            // 分析
+            if (pIndex==0) {
                 this.$store.commit('analysisData',{
-                    itemIndex:cItem
-                })
+                    itemIndex : cIndex+1
+                }) 
+                // sessionStorage.setItem('analysisIndex',cIndex)
             }
         },
         // 更改网站显示函数

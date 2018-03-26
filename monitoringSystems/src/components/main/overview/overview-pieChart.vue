@@ -116,7 +116,7 @@ export default {
                     }
                 ]
             });
-
+            if (sum==null||sum==NaN||sum =="") {sum =0};
             // 生成饼图圆圈内文本
             var textBox = $('<div class="echart-textBox" style=" text-align: center; white-space: nowrap;position:absolute;top: 62px;left: 50%;transform: translate(-50%,0);visibility: visible;"></div>')
             $('<p class="echart-textP1_b" style="color: #999;font-size: 12px; margin-top: 5px; margin-bottom: -2px;">总访问用户量</p>').appendTo(textBox);

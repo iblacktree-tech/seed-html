@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import channelsAndSources from '@/components/main/analysis/channelsAndSources'
-import landingPage from '@/components/main/analysis/landingPage'
-import userRetention from '@/components/main/analysis/userRetention'
+import channelsAndSources from '@/components/main/analysis/channelsAndSources/channelsAndSources'
+import landingPage from '@/components/main/analysis/landingPage/landingPage'
+import userRetention from '@/components/main/analysis/userRetention/userRetention'
 export default {
     name : 'analysis',
     data() {
@@ -61,5 +61,5 @@ export default {
 </script>
 
 <style scoped>
-    
+
 </style>

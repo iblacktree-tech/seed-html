@@ -21,6 +21,9 @@ export default {
         },
         charts(){
             return this.$store.state.overview.charts;
+        },
+        charts2(){
+            return this.$store.state.analysis.charts;
         }
     },
     created(){
@@ -32,6 +35,14 @@ export default {
                 // setTimeout(()=>{
                     for (var i = 0; i < that.charts.length; i++) {
                       that.charts[i].resize();
+                    }
+                // },100)
+                
+            }
+            if (that.charts2.length!=0) {
+                // setTimeout(()=>{
+                    for (var i = 0; i < that.charts2.length; i++) {
+                      that.charts2[i].resize();
                     }
                 // },100)
                 

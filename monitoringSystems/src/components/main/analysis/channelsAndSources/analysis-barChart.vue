@@ -1,19 +1,19 @@
 <template>
-    <!-- 折线图 -->
+    <!--partTwo 柱状图 -->
     <div class="analysis-barChart main-item-box">
         <div class="chart-box">
             <!-- 标题 时间 -->
             <div class="chart-head-wrapper">
                 <div class="chart-head-title">
-                    {{chartdates.title}}
-                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='chartdates.des'></i>
+                    {{partTwoData.title}}
+                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='partTwoData.des'></i>
                 </div>
-                <div class="head-time">{{chartdates.dates}}</div>
+                <div class="head-time">{{partTwoData.dates}}</div>
             </div>             
             <!-- 图表 -->
-            <div class="echart-box" :id="chartdates.id" :style="{width:this.chartWidth}" v-show='!chartdates.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
+            <div class="echart-box" :id="partTwoData.id" :style="{width:this.chartWidth}" v-show='!partTwoData.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
             </div>
-            <div class="echart-center" v-show='chartdates.isNull&&chartLoading=="hide"'>暂无数据</div>
+            <div class="echart-center" v-show='partTwoData.isNull&&chartLoading=="hide"'>暂无数据</div>
             <img alt="" class="loading" :src="imgUrl" v-show="chartLoading=='show'">
         </div>
     </div>
@@ -37,8 +37,8 @@ export default {
           return this.$store.state.analysis.charts;
       }
     },
-    props:['chartdates'],
-    // props:{chartdates:'chartdates'},
+    props:['partTwoData'],
+    // props:{partTwoData:'partTwoData'},
     mounted(){
         this.chartWidth()
     },
@@ -54,9 +54,10 @@ export default {
 
     methods:{
         chartWidth(){
-            this.chartWidth = $("#"+this.chartdates.id).siblings('.chart-duibi-info').width()
+            this.chartWidth = $('#'+this.partTwoData.id).siblings('.chart-head-wrapper').width()
+            // console.log(this.chartWidth)
             // if (this.charts.length!=0) {
-            //     this.charts[this.chartdates.id].init()  
+            //     this.charts[this.partTwoData.id].init()  
             // }
             this.drawLine()
             // console.log(this.chartWidth)
@@ -64,94 +65,114 @@ export default {
         drawLine(){
           // console.log(this.chartLoading)
           var that = this;
-            // console.log(this.chartdates.chartX)
             // 基于准备好的dom，初始化echarts实例
-            if (this.chartdates.id==''||this.chartdates.id==null) return;
-
-            var myChart = this.$echarts.init(document.getElementById(that.chartdates.id))
+            if (this.partTwoData.id==null||this.partTwoData.id=='') return;
+            // console.log(this.partTwoData.id +'aaa')
+            var myChart = this.$echarts.init(document.getElementById(that.partTwoData.id))
             // console.log(myChart)
+            // 计算百分比
+            var sum = 0;
+            for (var x in this.partTwoData.chartX){
+              sum+= parseInt(this.partTwoData.chartX[x])
+              // console.log(x)
+            }
             // 绘制图表
             myChart.setOption({
-                // 给echarts图设置背景色
-                backgroundColor: '#FBFBFB',                    
-                calculable: true,
-                grid: {
-                    right: '5%',
-                    top: 20
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: { 
-                    // align: 'center', //水平方向位置
-                    // verticalAlign: 'bottom', //垂直方向位置
-                    x: 'center', //距离x轴的距离
-                    y: 'bottom', //距离Y轴的距离
-                    data:['当前周期','上一周期']
-                },
-                xAxis: [{
-                    axisLine: {
-                        lineStyle: {
-                            color: '#ccc'
-                        }
-                    },
-                    axisLabel:{
-                        color: '#000'
-                    },
-                    type: 'category',
-                    boundaryGap: false,
-                    // data: ['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
-                    data: this.chartdates.chartX,
-                }],
-                yAxis: [{
-                    // show: false,
-                    type: 'value',
-                    axisLine:{
-                        show : false
-                    },
-                    splitLine:{
+                  tooltip: {
+                    show:true
+                  },
+                  legend: {
+                      show:false
+                  },
+                  grid: {
+                      right: '5%',
+                      top: 20,
+                      left:5,
+                      bottom:20,
+                      containLabel: true
+                  },
+                  xAxis: {
+                    position: "top",
+                      type: 'value',
+                      boundaryGap: [0, 0.01],
+                      axisLine:{
+                        show:false
+                      },
+                      axisTick:{
+                        show:false
+                      },
+                      splitLine:{
                         lineStyle:{
-                            type: 'dotted'
+                          type: 'dotted'
                         }
-                    }
-                }],
-                axisLine: {
-                    lineStyle: {
-                        color: '#CECECE'
-                     }
-                 },
-                series: [{
-                    name: '当前周期',
-                    type: 'line',
-                    color:['rgb(255, 70, 131)'],
-                    // symbol:'none',
-                    // data: [800, 300, 500, 800, 300, 600, 500, 600,200],
-                    data: this.chartdates.chartYNow,
-                    areaStyle: { 
-                        //渐变色
-                        normal: {
-                            color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(255, 70, 131)'
-                            }, {
-                                offset: 1,
-                                color: 'rgb(255, 158, 68)'
-                            }])
+                      }
+                  },
+                  yAxis: {
+                      type: 'category',
+                      axisLine:{
+                        lineStyle:{
+                          color:"#cccccc"
                         }
-                    }
-                }, {
-                    name: '上一周期',
-                    type: 'line',
-                    color:['#cccccc'],
-                    // symbol:'none',
-                    // data: [600, 300, 400, 200, 300, 300, 200, 400,800]
-                    data:  this.chartdates.chartYBefore
-                }]
-            },true);
+                      },
+                      axisTick:{
+                        alignWithLabel:true
+                      },
+                      axisLabel: {        
+                            show: true,
+                            interval:0,
+                            color: "#000000",
+                            align: 'right',
+                            formatter: function (value, index) {
+                              
+                              if (value !=null&&value !='') {
+                                // console.log(value.substring(0,10))
+                                return value.substring(0,15)
+                              }
+                                
+                            }
+                        },
+                      // data: ['巴西','印尼','美国','印度','中国','世界人口(万)']
+                      data: that.partTwoData.chartY
+                  },
+                  series: [
+                      {
+                          name: '2011年',
+                          type: 'bar',
+                          data: that.partTwoData.chartX,
+                          // data: [18203, 23489, 29034, 104970, 131744, 630230],
+                          label: {
+                                normal: {
+                                    show: true,
+                                    formatter: function(params){
+                                      // return params.value + "("+ (params.value/sum *100).toFixed(2) +"%)"
+                                      params.value + "("+ (params.value/sum *100).toFixed(2) +"%)"
+                                    },
+                                    position: 'right',
+                                    color:"#000000"
+                                }
+                            },
+                            barWidth: 10,
+                            
+
+                          color:['#90EC7D']
+                      }
+                  ]
+              });
+            // 只有一个数据
+            if (this.partTwoData.chartY !=''&&this.partTwoData.chartY !=null) {
+               if (this.partTwoData.chartY.length==1) {
+                   myChart.setOption({
+                     series: [{
+                      barWidth:'auto',
+                      barMaxWidth:80,
+                     }]
+                   })
+               }
+            }
             // 用于宽度自适应
             this.charts.push(myChart);
 
-            this.$store.commit('overviewData',{
+            this.$store.commit('analysisData',{
                 charts : this.charts
             })
             // main-item-box 提示hover 显示

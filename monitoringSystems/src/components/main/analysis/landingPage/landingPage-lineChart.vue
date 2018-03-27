@@ -1,31 +1,19 @@
 <template>
-    <!-- 折线图 -->
-    <div class="analysis-lineChart main-item-box">
+    <!-- partOne折线图 -->
+    <div class="landingPage-lineChart main-item-box">
         <div class="chart-box">
             <!-- 标题 时间 -->
             <div class="chart-head-wrapper">
                 <div class="chart-head-title">
-                    {{chartdates.title}}
-                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='chartdates.des'></i>
+                    {{partOneData.title}}
+                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='partOneData.des'></i>
                 </div>
-                <div class="head-time">{{chartdates.dates}}</div>
+                <div class="head-time">{{partOneData.dates}}</div>
             </div> 
-            <!-- 指标对比 -->
-            <div class="chart-duibi-info" v-show='!chartdates.isNull'>
-                <div class="gr-chart-aggregate-inner">
-                    <div class="chart-aggregate-percent">
-                        <div class="chart-trend ">
-                            {{chartdates.counts}}
-                        </div>
-                        <span class="chart-trend-desc">{{chartdates.cycle}}</span>
-                    </div>
-                </div>
-            </div>  
-            
             <!-- 图表 -->
-            <div class="echart-box" :id="chartdates.id" :style="{width:this.chartWidth}" v-show='!chartdates.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
+            <div class="echart-box" :id="partOneData.id" :style="{width:this.chartWidth}" v-show='!partOneData.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
             </div>
-            <div class="echart-center" v-show='chartdates.isNull&&chartLoading=="hide"'>暂无数据</div>
+            <div class="echart-center" v-show='partOneData.isNull&&chartLoading=="hide"'>暂无数据</div>
             <img alt="" class="loading" :src="imgUrl" v-show="chartLoading=='show'">
         </div>
     </div>
@@ -35,7 +23,7 @@
 
 
 export default {
-    name : 'analysis-lineChart',
+    name : 'landingPage-lineChart',
     data() {
         return {
           imgUrl:'../../static/img/loading.png',
@@ -49,8 +37,8 @@ export default {
           return this.$store.state.analysis.charts;
       }
     },
-    props:['chartdates'],
-    // props:{chartdates:'chartdates'},
+    props:['partOneData'],
+    // props:{partOneData:'partOneData'},
     mounted(){
         this.chartWidth()
     },
@@ -66,9 +54,9 @@ export default {
 
     methods:{
         chartWidth(){
-            this.chartWidth = $("#"+this.chartdates.id).siblings('.chart-duibi-info').width()
+            this.chartWidth = $("#"+this.partOneData.id).siblings('.chart-duibi-info').width()
             // if (this.charts.length!=0) {
-            //     this.charts[this.chartdates.id].init()  
+            //     this.charts[this.partOneData.id].init()  
             // }
             this.drawLine()
             // console.log(this.chartWidth)
@@ -76,11 +64,11 @@ export default {
         drawLine(){
           // console.log(this.chartLoading)
           var that = this;
-            // console.log(this.chartdates.chartX)
+            // console.log(this.partOneData.chartX)
             // 基于准备好的dom，初始化echarts实例
-            if (this.chartdates.id==''||this.chartdates.id==null) return;
+            if (this.partOneData.id==''||this.partOneData.id==null) return;
 
-            var myChart = this.$echarts.init(document.getElementById(that.chartdates.id))
+            var myChart = this.$echarts.init(document.getElementById(that.partOneData.id))
             // console.log(myChart)
             // 绘制图表
             myChart.setOption({
@@ -91,15 +79,23 @@ export default {
                     right: '5%',
                     top: 20
                 },
+                title:{
+                    text: this.partOneData.chartTitle,
+                    textStyle:{
+                        fontStyle:'normal',
+                        fontWeight:'normal',
+                        fontSize:"12"
+                    }
+                },
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: { 
                     // align: 'center', //水平方向位置
                     // verticalAlign: 'bottom', //垂直方向位置
-                    x: 'center', //距离x轴的距离
+                    x: 'left', //距离x轴的距离
                     y: 'bottom', //距离Y轴的距离
-                    data:['当前周期','上一周期']
+                    data:this.partOneData.cycle
                 },
                 xAxis: [{
                     axisLine: {
@@ -112,8 +108,7 @@ export default {
                     },
                     type: 'category',
                     boundaryGap: false,
-                    // data: ['17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一','17/05 周一'],
-                    data: this.chartdates.chartX,
+                    data: this.partOneData.chartX,
                 }],
                 yAxis: [{
                     // show: false,
@@ -132,42 +127,50 @@ export default {
                         color: '#CECECE'
                      }
                  },
-                series: [{
-                    name: '当前周期',
-                    type: 'line',
-                    color:['rgb(255, 70, 131)'],
-                    // symbol:'none',
-                    // data: [800, 300, 500, 800, 300, 600, 500, 600,200],
-                    data: this.chartdates.chartYNow,
-                    areaStyle: { 
-                        //渐变色
-                        normal: {
-                            color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                                offset: 0,
-                                color: 'rgb(255, 70, 131)'
-                            }, {
-                                offset: 1,
-                                color: 'rgb(255, 158, 68)'
-                            }])
-                        }
-                    }
-                }, {
-                    name: '上一周期',
-                    type: 'line',
-                    color:['#cccccc'],
-                    // symbol:'none',
-                    // data: [600, 300, 400, 200, 300, 300, 200, 400,800]
-                    data:  this.chartdates.chartYBefore
-                }]
+                series: [
+                  {
+                      name: this.partOneData.cycle[0],
+                      type: 'line',
+                      color:['rgb(0, 0, 99)'],
+                      label:{
+                          position:['50%', '50%']
+                      },
+                      data: this.partOneData.chartY1
+                  },{
+                      name: this.partOneData.cycle[1],
+                      type: 'line',
+                      color:['rgb(0, 44, 99)'],
+                      label:{
+                          position:['50%', '50%']
+                      },
+                      data: this.partOneData.chartY2
+                  },{
+                      name: this.partOneData.cycle[2],
+                      type: 'line',
+                      color:['rgb(88, 0, 99)'],
+                      label:{
+                          position:['50%', '50%']
+                      },
+                      data: this.partOneData.chartY3
+                  },{
+                      name: this.partOneData.cycle[3],
+                      type: 'line',
+                      color:['rgb(22, 66, 99)'],
+                      label:{
+                          position:['50%', '50%']
+                      },
+                      data: this.partOneData.chartY4
+                  }
+                ]
             },true);
             // 用于宽度自适应
             this.charts.push(myChart);
 
-            this.$store.commit('overviewData',{
+            this.$store.commit('analysisData',{
                 charts : this.charts
             })
             // main-item-box 提示hover 显示
-            $('.analysis-lineChart').find('[data-toggle="tooltip"]').tooltip()
+            $('.landingPage-lineChart').find('[data-toggle="tooltip"]').tooltip()
         }
     },
     components:{

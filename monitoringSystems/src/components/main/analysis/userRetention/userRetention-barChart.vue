@@ -1,31 +1,19 @@
 <template>
-    <!-- partTwo折线图 -->
-    <div class="analysis-lineChart main-item-box">
+    <!--partTwo 柱状图 -->
+    <div class="userRetention-barChart main-item-box">
         <div class="chart-box">
             <!-- 标题 时间 -->
             <div class="chart-head-wrapper">
                 <div class="chart-head-title">
-                    {{partTwoData.title}}
-                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='partTwoData.des'></i>
+                    {{partOneData.title}}
+                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='partOneData.des'></i>
                 </div>
-                <div class="head-time">{{partTwoData.dates}}</div>
-            </div> 
-            <!-- 指标对比 -->
-            <div class="chart-duibi-info" v-show='!partTwoData.isNull'>
-                <div class="gr-chart-aggregate-inner">
-                    <div class="chart-aggregate-percent">
-                        <div class="chart-trend ">
-                            {{partTwoData.counts}}
-                        </div>
-                        <span class="chart-trend-desc">{{partTwoData.cycle}}</span>
-                    </div>
-                </div>
-            </div>  
-            
+                <div class="head-time">{{partOneData.dates}}</div>
+            </div>             
             <!-- 图表 -->
-            <div class="echart-box" :id="partTwoData.id" :style="{width:this.chartWidth}" v-show='!partTwoData.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
+            <div class="echart-box" :id="partOneData.id" :style="{width:this.chartWidth}" v-show='!partOneData.isNull' :class='{"chartShow":chartLoading=="hide"}'> 
             </div>
-            <div class="echart-center" v-show='partTwoData.isNull&&chartLoading=="hide"'>暂无数据</div>
+            <div class="echart-center" v-show='partOneData.isNull&&chartLoading=="hide"'>暂无数据</div>
             <img alt="" class="loading" :src="imgUrl" v-show="chartLoading=='show'">
         </div>
     </div>
@@ -35,7 +23,7 @@
 
 
 export default {
-    name : 'analysis-lineChart',
+    name : 'userRetention-barChart',
     data() {
         return {
           imgUrl:'../../static/img/loading.png',
@@ -49,8 +37,8 @@ export default {
           return this.$store.state.analysis.charts;
       }
     },
-    props:['partTwoData'],
-    // props:{partTwoData:'partTwoData'},
+    props:['partOneData'],
+    // props:{partOneData:'partOneData'},
     mounted(){
         this.chartWidth()
     },
@@ -66,9 +54,10 @@ export default {
 
     methods:{
         chartWidth(){
-            this.chartWidth = $("#"+this.partTwoData.id).siblings('.chart-duibi-info').width()
+            this.chartWidth = $('#'+this.partOneData.id).siblings('.chart-head-wrapper').width()
+            // console.log(this.chartWidth)
             // if (this.charts.length!=0) {
-            //     this.charts[this.partTwoData.id].init()  
+            //     this.charts[this.partOneData.id].init()  
             // }
             this.drawLine()
             // console.log(this.chartWidth)
@@ -76,77 +65,110 @@ export default {
         drawLine(){
           // console.log(this.chartLoading)
           var that = this;
-            // console.log(this.partTwoData.chartX)
             // 基于准备好的dom，初始化echarts实例
-            if (this.partTwoData.id==''||this.partTwoData.id==null) return;
-
-            var myChart = this.$echarts.init(document.getElementById(that.partTwoData.id))
+            if (this.partOneData.id==null||this.partOneData.id=='') return;
+            // console.log(this.partOneData.id +'aaa')
+            var myChart = this.$echarts.init(document.getElementById(that.partOneData.id))
             // console.log(myChart)
+            // 计算百分比
+            var sum = 0;
+            for (var x in this.partOneData.chartX){
+              sum+= parseInt(this.partOneData.chartX[x])
+              // console.log(x)
+            }
             // 绘制图表
             myChart.setOption({
-                // 给echarts图设置背景色
-                backgroundColor: '#FBFBFB',                    
-                calculable: true,
-                grid: {
-                    right: '5%',
-                    top: 20
-                },
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: { 
-                    // align: 'center', //水平方向位置
-                    // verticalAlign: 'bottom', //垂直方向位置
-                    x: 'left', //距离x轴的距离
-                    y: 'bottom', //距离Y轴的距离
-                    data:[this.partTwoData.chartType]
-                },
-                xAxis: [{
-                    axisLine: {
-                        lineStyle: {
-                            color: '#ccc'
-                        }
-                    },
-                    axisLabel:{
-                        color: '#000'
-                    },
-                    type: 'category',
-                    boundaryGap: false,
-                    data: this.partTwoData.chartX,
-                }],
-                yAxis: [{
-                    show: true,
-                    type: 'value',
-                    name:this.partTwoData.chartTitle,
-                    nameLocation:'middle',
-                    nameGap:35,
-                    // offset:10,
-                    axisLine:{
-                        show : false
-                    },
-                    splitLine:{
+                  tooltip: {
+                    show:true
+                  },
+                  legend: {
+                      show:false
+                  },
+                  grid: {
+                      right: '5%',
+                      top: 20,
+                      left:5,
+                      bottom:20,
+                      containLabel: true
+                  },
+                  xAxis: {
+                    position: "top",
+                      type: 'value',
+                      boundaryGap: [0, 0.01],
+                      axisLine:{
+                        show:false
+                      },
+                      axisTick:{
+                        show:false
+                      },
+                      splitLine:{
                         lineStyle:{
-                            type: 'dotted'
+                          type: 'dotted'
                         }
-                    }
-                }],
-                axisLine: {
-                    lineStyle: {
-                        color: '#CECECE'
-                     }
-                 },
-                series: [{
-                    name: this.partTwoData.chartType,
-                    type: 'line',
-                    color:['rgb(0, 0, 99)'],
-                    label:{
-                        position:['50%', '50%']
-                    },
-                    // symbol:'none',
-                    // data: [800, 300, 500, 800, 300, 600, 500, 600,200],
-                    data: this.partTwoData.chartY
-                }]
-            },true);
+                      }
+                  },
+                  yAxis: {
+                      type: 'category',
+                      axisLine:{
+                        lineStyle:{
+                          color:"#cccccc"
+                        }
+                      },
+                      axisTick:{
+                        alignWithLabel:true
+                      },
+                      axisLabel: {        
+                            show: true,
+                            interval:0,
+                            color: "#000000",
+                            align: 'right',
+                            formatter: function (value, index) {
+                              
+                              if (value !=null&&value !='') {
+                                // console.log(value.substring(0,10))
+                                return value.substring(0,15)
+                              }
+                                
+                            }
+                        },
+                      // data: ['巴西','印尼','美国','印度','中国','世界人口(万)']
+                      data: that.partOneData.chartY
+                  },
+                  series: [
+                      {
+                          name: '2011年',
+                          type: 'bar',
+                          data: that.partOneData.chartX,
+                          // data: [18203, 23489, 29034, 104970, 131744, 630230],
+                          label: {
+                                normal: {
+                                    show: true,
+                                    formatter: function(params){
+                                      // return params.value + "("+ (params.value/sum *100).toFixed(2) +"%)"
+                                      params.value + "("+ (params.value/sum *100).toFixed(2) +"%)"
+                                    },
+                                    position: 'right',
+                                    color:"#000000"
+                                }
+                            },
+                            barWidth: 10,
+                            
+
+                          color:['#90EC7D']
+                      }
+                  ]
+              });
+            // 只有一个数据
+            if (this.partOneData.chartY !=''&&this.partOneData.chartY !=null) {
+               if (this.partOneData.chartY.length==1) {
+                   myChart.setOption({
+                     series: [{
+                      barWidth:'auto',
+                      barMaxWidth:80,
+                     }]
+                   })
+               }
+            }
             // 用于宽度自适应
             this.charts.push(myChart);
 
@@ -154,7 +176,7 @@ export default {
                 charts : this.charts
             })
             // main-item-box 提示hover 显示
-            $('.analysis-lineChart').find('[data-toggle="tooltip"]').tooltip()
+            $('.userRetention-barChart').find('[data-toggle="tooltip"]').tooltip()
         }
     },
     components:{

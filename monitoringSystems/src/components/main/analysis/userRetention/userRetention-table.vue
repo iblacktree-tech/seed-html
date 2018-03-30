@@ -1,16 +1,16 @@
 <template>
     <!-- partThree -->
-    <div class="analysis-table main-item-box">
+    <div class="userRetention-table main-item-box">
         <div class="chart-box">
             <!-- 标题 时间 -->
             <div class="chart-head-wrapper">
                 <div class="chart-head-title">
-                    {{partThreeData.title}}
-                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='partThreeData.des'></i>
+                    {{partTwoData.title}}
+                  <i class="glyphicon glyphicon-question-sign tishi-box" data-toggle="tooltip" data-placement="top" :title='partTwoData.des'></i>
                 </div>
-                <div class="head-time">{{partThreeData.dates}}</div>
+                <div class="head-time">{{partTwoData.dates}}</div>
             </div> 
-            <div class="tableBox">
+            <div class="tableBox" :id="partTwoData.id">
                 <v-table
                      is-horizontal-resize
                      style="width:100%"
@@ -21,6 +21,7 @@
                      @sort-change="sortChange"
                      row-hover-color="#eee"
                      row-click-color="#edf7ff"
+                     :column-cell-class-name="columnCellClass"
                 ></v-table>
 
             </div>
@@ -32,7 +33,7 @@
 
 
 export default {
-    name : 'analysis-table',
+    name : 'userRetention-table',
     data() {
         return {
             imgUrl:'../../static/img/loading.png',
@@ -40,14 +41,7 @@ export default {
             tableData: null,
             multipleSort:false,
             columns: [
-                {field: 'label', title: '访问来源', width: 50, titleAlign: 'center',columnAlign:'center',orderBy:'asc',isResize:true},
-                {field: 'nb_uniq_new_visitors', title: '新访问用户量', width: 80, titleAlign: 'center',columnAlign:'center',orderBy:'desc',isResize:true},
-                {field: 'nb_uniq_visitors', title: '访问用户量', width: 80, titleAlign: 'center',columnAlign:'center',orderBy:'desc',isResize:true},
-                {field: 'nb_new_users', title: '新登录用户量',width: 80, titleAlign: 'center',columnAlign:'center',orderBy:'desc',isResize:true},
-                {field: 'nb_users', title: '登录用户量',width: 80, titleAlign: 'center',columnAlign:'center',orderBy:'desc',isResize:true},
-                {field: 'avg_time_on_site', title: '平均访问时长',width: 80, titleAlign: 'center',columnAlign:'center',orderBy:'desc',isResize:true},
-                {field: 'nb_pageviews', title: '每次访问页面浏览量',width: 100, titleAlign: 'center',columnAlign:'center',orderBy:'desc',isResize:true},
-                {field: 'bounce_rate', title: '跳出率',width: 80, titleAlign: 'center',columnAlign:'center',orderBy:'desc',isResize:true}
+                
             ]
         }
     },
@@ -56,8 +50,8 @@ export default {
           return this.$store.state.analysis.chartLoading;
       }
     },
-    props:['partThreeData'],
-    // props:{partThreeData:'partThreeData'},
+    props:['partTwoData'],
+    // props:{partTwoData:'partTwoData'},
     mounted(){
         this.init()
     },
@@ -70,11 +64,25 @@ export default {
 
     methods:{
         init(){
-           // console.log(this.partThreeData)
+              this.columns = this.partTwoData.thData
         },
         // 获取 table 组件每次操作后的参数（重新去请求数据）
         sortChange(params){
-            // console.log(params)
+            console.log(params)
+        },
+        columnCellClass(rowIndex,columnName,rowData){
+            // 给一行column为‘hobby’的列设置className
+            if (rowIndex === 1 && columnName==='nb_visits'){
+
+                return 'td-bg1';
+            }
+
+            // 给第二行设置className
+            if (rowIndex ===1){
+
+                return 'td-bg2';
+            }
+
         },
         request(){
             this.isLoading = true;
@@ -89,8 +97,8 @@ export default {
                 if (r > 0.9) {
                     this.tableData = null;
                 } else {
-                    this.tableData = this.partThreeData.tables
-                    // console.log(this.partThreeData.tables)
+                    this.tableData = this.partTwoData.tables
+                    // console.log(this.partTwoData.tables)
                 }
             }, 3000);
         }
@@ -104,6 +112,12 @@ export default {
 </script>
 
 <style scoped>
+    .td-bg1{
+        background-color: #187;
+    }
+    .td-bg2{
+        background-color: #ccc;
+    }
     .loading{
         width: 50px;
         height: 50px;

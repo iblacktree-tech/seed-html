@@ -145,7 +145,7 @@ export default {
                                     show: true,
                                     formatter: function(params){
                                       // return params.value + "("+ (params.value/sum *100).toFixed(2) +"%)"
-                                      params.value + "("+ (params.value/sum *100).toFixed(2) +"%)"
+                                      return params.value + "("+ (params.value/sum *100).toFixed(2) +"%)"
                                     },
                                     position: 'right',
                                     color:"#000000"

@@ -4,15 +4,15 @@
         <!-- 顶部 -->
         <div class="top-box">
             <!-- 右侧 日期btn-->
-            <button type="button" class="landingPage-btn pull-right" >
+            <button type="button" class="landingPage-btn pull-right" @click.stop='modalShow'>
                 <i class="anticon glyphicon glyphicon-list-alt"></i>
-                <span>昨天</span>
+                <span>{{anis.modalDateChose}}</span>
             </button>
             <!-- 标题 -->
             <div class="itemTitleBox">
                 <h2 class="itemTitle">落地页分析</h2>
                 <button type="button" class="btn btn-default btn-xs pull-left" aria-label="Left Align">
-                    昨天
+                    {{anis.modalDateChose}}
                     <span class="glyphicon glyphicon-remove " aria-hidden="true"></span>
                 </button>
             </div>
@@ -242,19 +242,48 @@ export default {
         }
     },
     computed:{
-
+        anis(){
+            return this.$store.state.analysis;
+        }
     },
     mounted(){
-        this.a();
+        
     },
     watch:{
         // itemIndex(){
         //     this.a();
         // }
     },
+    destroyed(){
+        this.dataDestroyed()
+    },
     methods:{
-        a(){
-            // console.log(this.itemIndex)
+        dataDestroyed(){
+            let yesterdays = sessionStorage.getItem('yesterdays')
+            // 初始化昨天
+            sessionStorage.setItem('days',yesterdays);
+            sessionStorage.setItem('period','day');
+            this.$store.commit('analysisData',{
+                modalDateChose : "昨天"
+            })
+        },
+        // 弹框的显示与隐藏
+        modalShow(){
+
+          if (this.anis.modalIsShow=='on') {
+            this.$store.commit('analysisData',{
+                modalIsShow : 'off'
+                
+            })
+            // console.log('off')
+          }else{
+            this.$store.commit('analysisData',{
+              modalIsShow : 'on'
+
+            })
+            // console.log('on')
+          }
+          // console.log(this.anis.modalIsShow)
         }
     },
     components:{

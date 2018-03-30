@@ -57,7 +57,7 @@ export default {
     watch: {
        chartLoading(){
 
-        // console.log(this.chartLoading)
+          // console.log(this.chartLoading+'watch')
           if (this.chartLoading =="hide") {
               this.drawLine()
           }
@@ -66,6 +66,7 @@ export default {
 
     methods:{
         chartWidth(){
+          // console.log(this.chartLoading+'mounted')
             this.chartWidth = $("#"+this.partOneData.id).siblings('.chart-duibi-info').width()
             // if (this.charts.length!=0) {
             //     this.charts[this.partOneData.id].init()  
@@ -78,7 +79,7 @@ export default {
           var that = this;
             // console.log(this.partOneData.id)
             // 基于准备好的dom，初始化echarts实例
-            if (this.partOneData.id==''||this.partOneData.id==null) return;
+            if (this.partOneData.chartX==null||this.partOneData.chartX==''||this.partOneData.chartX.length==0) return;
 
             var myChart = this.$echarts.init(document.getElementById(that.partOneData.id))
             // console.log(myChart)
@@ -125,6 +126,17 @@ export default {
                         lineStyle:{
                             type: 'dotted'
                         }
+                    },
+                    axisLabel:{
+                        formatter: function (value) {
+                            if (that.partOneData.id=='3'||that.partOneData.id=='6') {
+                                return value*100 + '%'
+                                // console.log("1212")
+                            }else{
+                                // console.log("2121")
+                                return value
+                            }
+                        }
                     }
                 }],
                 axisLine: {
@@ -135,7 +147,8 @@ export default {
                 series: [{
                     name: '当前周期',
                     type: 'line',
-                    color:['rgb(255, 70, 131)'],
+                    // color:['rgb(255, 70, 131)'],
+                    color:['#999'],
                     // symbol:'none',
                     // data: [800, 300, 500, 800, 300, 600, 500, 600,200],
                     data: this.partOneData.chartYNow,
@@ -144,10 +157,12 @@ export default {
                         normal: {
                             color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
                                 offset: 0,
-                                color: 'rgb(255, 70, 131)'
+                                // color: 'rgb(255, 70, 131)'
+                                color: '#ccc'
                             }, {
                                 offset: 1,
-                                color: 'rgb(255, 158, 68)'
+                                // color: 'rgb(255, 158, 68)'
+                                color: '#fff'
                             }])
                         }
                     }
@@ -283,22 +298,24 @@ export default {
       z-index: 5;
     }
     .chart-aggregate-percent{
-      display: inline-block;
-      margin-left: 6px;
-      font-size: 12px;
-      position: relative;
-      top: -36px;
-      line-height: 1;
-          text-align: right;
+        display: inline-block;
+        margin-left: 6px;
+        font-size: 12px;
+        position: relative;
+        top: -36px;
+        line-height: 1;
+        text-align: right;
     }
     .chart-trend{
-      font-size: 20px;
-      line-height: 20px;
+        font-size: 20px;
+        line-height: 20px;
+        /*text-align: center*/
     }
 
     .chart-trend-desc{
         font-size: 12px;
         color: #9698a3;
+        /*text-align: center*/
     }
     .echart-box{
       height: 183px;

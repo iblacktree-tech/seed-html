@@ -97,6 +97,8 @@ export default {
             }
             let days = myyear + "-" + mymonth + "-" + myweekday
             sessionStorage.setItem('days',days);
+            
+            sessionStorage.setItem('yesterdays',days);
         },
         //获取页面参数 siteid 及网站列表数据 当前登录的用户名称
         getCanshu(){  

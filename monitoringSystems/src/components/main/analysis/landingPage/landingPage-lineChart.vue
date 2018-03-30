@@ -79,14 +79,6 @@ export default {
                     right: '5%',
                     top: 20
                 },
-                title:{
-                    text: this.partOneData.chartTitle,
-                    textStyle:{
-                        fontStyle:'normal',
-                        fontWeight:'normal',
-                        fontSize:"12"
-                    }
-                },
                 tooltip: {
                     trigger: 'axis'
                 },
@@ -111,8 +103,11 @@ export default {
                     data: this.partOneData.chartX,
                 }],
                 yAxis: [{
-                    // show: false,
+                    show: true,
                     type: 'value',
+                    name:this.partOneData.chartTitle,
+                    nameLocation:'middle',
+                    nameGap:35,
                     axisLine:{
                         show : false
                     },

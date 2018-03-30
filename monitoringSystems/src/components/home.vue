@@ -24,6 +24,9 @@ export default {
         },
         charts2(){
             return this.$store.state.analysis.charts;
+        },
+        anis(){
+            return this.$store.state.analysis.modalIsShow;
         }
     },
     created(){
@@ -53,6 +56,11 @@ export default {
       ovModalShow(){
         if (this.ovShow=='on') {
           this.$store.commit('overviewData',{
+              modalIsShow : 'off'
+          })
+        }
+        if (this.anis=='on') {
+          this.$store.commit('analysisData',{
               modalIsShow : 'off'
           })
         }

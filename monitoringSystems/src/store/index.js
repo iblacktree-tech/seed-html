@@ -83,8 +83,12 @@ let store = new Vuex.Store({
         },
 		analysis:{//应用分析
 			itemIndex: '', //项目下标
-			chartLoading: 'hide', //图表loading 是否显示
+			chartTime:'', //图表选择日期 用于overview 监听日期变化
+			modalIsShow: "off", //日期弹框显示与否 控制
+			modalDateChose: "昨天", //弹框选择后，显示在右侧的日期
+			chartLoading: 'show', //图表loading 是否显示
 			charts:[],//用于存放echarts 对象， 用于window.onresize
+			// chartsData:[], //分析页 图表数据
 		},
 
 		
@@ -171,6 +175,22 @@ let store = new Vuex.Store({
 			if (data.charts) {
 				state.analysis.charts=data.charts;
 			}
+			// 弹框的显示与隐藏
+			if (data.modalIsShow) {
+				state.analysis.modalIsShow=data.modalIsShow;
+			}
+			// 标签上的日期显示
+			if (data.modalDateChose) {
+				state.analysis.modalDateChose=data.modalDateChose;
+			}
+			// 分析页 图表选择日期
+			if (data.chartTime) {
+				state.analysis.chartTime=data.chartTime;
+			}
+			// 分析页 图表数据
+			// if (data.chartsData) {
+			// 	state.analysis.chartsData=data.chartsData;
+			// }
 		},
 	}
 })

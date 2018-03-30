@@ -163,7 +163,9 @@ export default {
                 this.$store.commit('analysisData',{
                     itemIndex : cIndex+1
                 }) 
-                // sessionStorage.setItem('analysisIndex',cIndex)
+                this.$store.commit('analysisData',{
+                    chartLoading:'show'
+                })
             }
         },
         // 更改网站显示函数

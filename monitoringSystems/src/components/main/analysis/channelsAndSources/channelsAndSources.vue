@@ -4,15 +4,15 @@
         <!-- 顶部 -->
         <div class="top-box">
             <!-- 右侧 日期btn-->
-            <button type="button" class="channelsAndSources-btn pull-right" >
+            <button type="button" class="channelsAndSources-btn pull-right" @click.stop='modalShow'>
                 <i class="anticon glyphicon glyphicon-list-alt"></i>
-                <span>昨天</span>
+                <span>{{anis.modalDateChose}}</span>
             </button>
             <!-- 标题 -->
             <div class="itemTitleBox">
                 <h2 class="itemTitle">渠道分析</h2>
                 <button type="button" class="btn btn-default btn-xs pull-left" aria-label="Left Align">
-                    昨天
+                    {{anis.modalDateChose}}
                     <span class="glyphicon glyphicon-remove " aria-hidden="true"></span>
                 </button>
             </div>
@@ -64,12 +64,6 @@
                </section>
             </div>
         </div>
-
-
-
-
-
-
     </div>
 </template>
 
@@ -78,6 +72,7 @@ import analysisLineChart from '@/components/main/analysis/channelsAndSources/ana
 import analysisLineChart2 from '@/components/main/analysis/channelsAndSources/analysis-lineChart2'
 import analysisBarChart from '@/components/main/analysis/channelsAndSources/analysis-barChart'
 import analysisTable from '@/components/main/analysis/channelsAndSources/analysis-table'
+
 export default {
     name : 'channelsAndSources',
     data() {
@@ -87,54 +82,54 @@ export default {
                     {
                         title: "访问用户量趋势",//标题
                         des: "访问用户量趋势",//描述
-                        dates:"2018-03-26-2018-03-26",//日期
-                        counts :5,//数量
+                        dates:"",//日期
+                        counts :"",//数量
                         cycle:"本周期",// 周期
                         id : "1",
                         // chartX:[],
-                        chartX:['17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05'],
+                        chartX:[],
                         // chartYNow:[],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                        chartYNow:[],
+                        chartYBefore:[],
                         isNull: false, //是否显示暂无数据
                         chartWidth:  0//宽度
                     },
                     {
                         title: "新访问用户量趋势",//标题
                         des: "新访问用户量趋势",//描述
-                        dates:"2018-03-26-2018-03-26",//日期
-                        counts :5,//数量
+                        dates:"",//日期
+                        counts :0,//数量
                         cycle:"本周期",// 周期
                         id : "2",
-                        chartX:['17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05'],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[],
                         isNull: false, //是否显示暂无数据
                         chartWidth:  0//宽度
                     },
                     {
                         title: "新访问用户占比",//标题
                         des: "新访问用户占比",//描述
-                        dates:"2018-03-26-2018-03-26",//日期
-                        counts :'100%',//数量
+                        dates:"",//日期
+                        counts :'0%',//数量
                         cycle:"本周期",// 周期
                         id : "3",
-                        chartX:['17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05'],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[],
                         isNull: false, //是否显示暂无数据
                         chartWidth:  0//宽度
                     },
                     {
                         title: "登录用户量趋势",//标题
                         des: "登录用户量趋势",//描述
-                        dates:"2018-03-26-2018-03-26",//日期
+                        dates:"",//日期
                         counts :0,//数量
                         cycle:"本周期",// 周期
                         id : "4",
-                        chartX:['17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05'],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[],
                         isNull: false, //是否显示暂无数据
                         chartWidth:  0//宽度
                     },
@@ -145,22 +140,22 @@ export default {
                         counts :0,//数量
                         cycle:"本周期",// 周期
                         id : "5",
-                        chartX:['17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05'],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[],
                         isNull: false, //是否显示暂无数据
                         chartWidth:  0//宽度
                     },
                     {
                         title: "新登录用户占比",//标题
                         des: "新登录用户占比",//描述
-                        dates:"2018-03-26-2018-03-26",//日期
-                        counts :'100%',//数量
+                        dates:"",//日期
+                        counts :'0%',//数量
                         cycle:"本周期",// 周期
                         id : "6",
-                        chartX:['17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05','17/05'],
-                        chartYNow:[800, 300, 500, 800, 300, 600, 500, 600,200],
-                        chartYBefore:[600, 300, 400, 200, 300, 300, 200, 400,800],
+                        chartX:[],
+                        chartYNow:[],
+                        chartYBefore:[],
                         isNull: false, //是否显示暂无数据
                         chartWidth:  0//宽度
                     }
@@ -271,30 +266,250 @@ export default {
                         ]
                     }
                 ]
-            }
+            },
+            // loadingChang: this.chartLoading//用于监听loading是否发生变化 
         }
     },
     computed:{
-
+        anis(){
+            return this.$store.state.analysis;
+        },
+        chartLoading(){
+          return this.$store.state.analysis.chartLoading;
+        }
     },
     mounted(){
-        this.a();
+        this.init();
     },
     watch:{
-        // itemIndex(){
-        //     this.a();
-        // }
+        chartLoading(){
+            console.log(this.chartLoading)
+            this.init();
+        }
+    },
+    destroyed(){
+        this.dataDestroyed();
     },
     methods:{
-        a(){
-            // console.log(this.itemIndex)
+        // 初始化，请求后台数据
+        init(){
+            for (var i = 0; i < this.box['partOne'].length; i++) {
+               this.box.partOne[i].isNull = false
+            }
+            // 请求分析页图表数据
+            this.$http.post('/api/glreport/getReportBasicdata', {
+               // params: {
+                   siteid: sessionStorage.getItem('siteId'),//网站siteid
+                   querydate: sessionStorage.getItem('days'),//查询日期范围
+                   period: sessionStorage.getItem('period')//数据粒度, 最小是day
+               // }
+            },{
+                credentials: true,
+                emulateJSON: true
+            }).then(function(res) {
+               console.log(res.body) 
+               if (res.body.msg=="操作失败，请重试") {
+                    if (confirm('链接超时，请重新登录！')==true){ 
+                        this.$router.push({path:'/login'})  
+                    }
+               }
+               // let res = res.body
+               // 用户访问量趋势
+               this.pageOneChartData(res.body,this.box.partOne[0],'nb_uniq_visitors');
+               //新访问用户量趋势
+               this.pageOneChartData(res.body,this.box.partOne[1],'nb_uniq_visitors_newcoming');
+               //新访问用户占比
+               this.pageOneChartData(res.body,this.box.partOne[2],'nb_uniq_visitors','nb_uniq_visitors_newcoming');
+               //登录用户量趋势
+               this.pageOneChartData(res.body,this.box.partOne[3],'nb_users');
+
+               //新登录用户量占比
+               this.pageOneChartData(res.body,this.box.partOne[5],'nb_users','nb_users_returning');
+               // this.newVistor(res.body);
+
+            },function(err){
+
+                console.log(err)
+                if (err.status ==500) {
+                    if (confirm('登录超时，请重新登录！')==true){ 
+                        this.$router.push({path:'/login'})  
+                    }else{ 
+
+                    } 
+                }
+                if (true) {}
+            });
+        },
+        dataDestroyed(){
+            let yesterdays = sessionStorage.getItem('yesterdays')
+            // 初始化昨天
+            sessionStorage.setItem('days',yesterdays);
+            sessionStorage.setItem('period','day');
+            this.$store.commit('analysisData',{
+                modalDateChose : "昨天"
+            })
+        },
+        // 弹框的显示与隐藏
+        modalShow(){
+
+          if (this.anis.modalIsShow=='on') {
+            this.$store.commit('analysisData',{
+                modalIsShow : 'off'
+                
+            })
+            // console.log('off')
+          }else{
+            this.$store.commit('analysisData',{
+              modalIsShow : 'on'
+
+            })
+            // console.log('on')
+          }
+          // console.log(this.anis.modalIsShow)
+        },
+        pageOneChartData(res,d,parms1,parms2){
+            //res --ajax返回的数据；parms1--各个表格对应ajax返回数据里面的参数 总量；parms2--各个表格对应ajax返回数据里面的参数 分量；d--处理完成后放入data的位置  
+            // console.log(res)
+            var that = this
+            let dataNow = res.data1.data
+            let dataBefore = res.data2.data
+            let counts = 0,countsNow = 0,countsNowOld = 0,countsBefore = 0,countsBeforeOld = 0,num=0,riseOrFall='',chartX=[],chartYNow=[],chartYBefore=[]
+
+            if (parms2) {//存在parms2
+                // console.log("aaa")
+                // 本周期
+                if (dataNow.length!=0) {//有数据
+                    // 日期
+                    d.dates = dataNow[dataNow.length-1].datadate
+
+                    for (var i = 0; i < dataNow.length; i++) {
+                      if (parms1 in dataNow[i]) {
+                          countsNow += dataNow[i][parms1]
+                          countsNowOld += dataNow[i][parms2]
+                      }else{
+                          countsNow +=0;
+                          countsNowOld +=0;
+                      }
+                      let differ = dataNow[i][parms2]/dataNow[i][parms1]
+                      // counts += dataNow[i].parms1
+                      chartX.push(that.formatDate(dataNow[i]['datadate']))
+                      chartYNow.push(differ)
+                    }
+                    //页面访问量总量
+                    if (!countsNow) {
+                        d.counts = 0
+                    }else{
+                        // console.log(countsNow,countsNowOld)
+                        if (countsNow-countsNowOld) {
+                            d.counts = that.numToPercent((countsNow-countsNowOld)/countsNow) + "%"
+                        }else{
+                            d.counts = 0
+                        }
+                        
+                    }
+                    
+                    // 横坐标
+                    d.chartX = chartX
+                    // 纵坐标
+                    d.chartYNow = chartYNow
+                }
+                // 上周期
+                if (dataBefore.length!=0) {//有数据
+                    for (var i = 0; i < dataBefore.length; i++) {
+                        let differ = dataBefore[i][parms2]/dataBefore[i][parms1]
+                        chartYBefore.push(differ);
+                        // countsBefore += dataBefore[i].parms1
+                        if (parms1 in dataBefore[i]) {
+                            countsBefore += dataBefore[i][parms1]
+                            countsBeforeOld += dataBefore[i][parms2]
+                        }else{
+                            countsBefore +=0
+                            countsBeforeOld +=0
+                        }
+                    }
+                    // 纵坐标
+                    d.chartYBefore = that.numToPercent((countsBefore-countsBeforeOld)/countsBefore)
+                }  
+            }else{//不存在parms2
+                // console.log(parms1)
+                // 本周期
+                if (dataNow.length!=0) {//有数据
+                    // 日期
+                    d.dates = dataNow[dataNow.length-1].datadate
+
+                    for (var i = 0; i < dataNow.length; i++) {
+                      if (parms1 in dataNow[i]) {
+                          counts += dataNow[i][parms1]
+                          // console.log(dataNow[i][parms1])
+                      }else{
+                          counts +=0
+                      }
+                      // counts += dataNow[i].parms1
+                      chartX.push(that.formatDate(dataNow[i]['datadate']))
+                      chartYNow.push(dataNow[i][parms1])
+                    }
+
+                    //页面访问量总量
+                    d.counts = counts
+                    //页面访问量总量
+                    countsNow = counts
+                    // 横坐标
+                    d.chartX = chartX
+                    // 纵坐标
+                    d.chartYNow = chartYNow
+                }
+                // 上周期
+                if (dataBefore.length!=0) {//有数据
+                    for (var i = 0; i < dataBefore.length; i++) {
+                        chartYBefore.push(dataBefore[i][parms1]);
+                        // countsBefore += dataBefore[i].parms1
+                        if (parms1 in dataBefore[i]) {
+                            countsBefore += dataBefore[i][parms1]
+                        }else{
+                            countsBefore +=0
+                        }
+                    }
+                    // 纵坐标
+                    d.chartYBefore = chartYBefore
+                }   
+            }
+            if (dataNow.length==0&&dataBefore.length==0) {
+                d.isNull=true //是否显示暂无数据
+            }
+            this.$store.commit('analysisData',{
+                chartLoading:'hide'
+            })
+        },
+        // 日期格式函数
+        formatDate(date) {
+            var myyear = new Date(date).getFullYear();
+            var mymonth = new Date(date).getMonth() + 1;
+            var myweekday = new Date(date).getDate();
+            if (mymonth < 10) {
+                mymonth = "0" + mymonth;
+            }
+            if (myweekday < 10) {
+                myweekday = "0" + myweekday;
+            }
+            var weekDate = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六");
+            var week = new Date(date).getDay(); 
+            var days = myyear.toString().slice(2) + "/" + mymonth + "" + weekDate[week]
+
+            // console.log(datesDate)
+            return days
+
+        },
+        numToPercent(a){
+            // return (a * 10000)/100.toFixed(2) + '%';
+            return (a * 100).toFixed(2);
         }
     },
     components:{
         analysisLineChart:analysisLineChart,
         analysisLineChart2:analysisLineChart2,
         analysisBarChart:analysisBarChart,
-        analysisTable:analysisTable,
+        analysisTable:analysisTable
+        
     }
 }
 </script>
